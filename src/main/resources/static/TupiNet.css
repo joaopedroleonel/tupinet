@@ -1,0 +1,143 @@
+body {
+    margin: 0; 
+    border: none;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, rgb(135, 206, 250), rgb(84,172,244) 60%);
+    font-weight: 400 !important;
+}
+.cloud {
+    position: absolute;
+    width: 148px;
+    height: 128px;
+    z-index: -2;
+}
+#cloud1 {
+    top: 10vh;
+    animation: moveCloud1 60s linear infinite, floatCloud 10s ease-in-out infinite;
+    animation-delay: 0s;
+}
+
+#cloud2 {
+    top: 25vh;
+    left: -300px; 
+    animation: moveCloud2 80s linear infinite, floatCloud 10s ease-in-out infinite;
+    animation-delay: 10s;
+}
+#cloud3 {
+    top: 40vh;
+    left: -300px; 
+    animation: moveCloud3 50s linear infinite, floatCloud 10s ease-in-out infinite;
+    animation-delay: 0s;
+}
+
+@keyframes moveCloud1 {
+    0% {
+        left: -300px;
+    }
+    100% {
+        left: 100vw;
+    }
+}
+
+@keyframes moveCloud2 {
+    0% {
+        left: -300px;
+    }
+    100% {
+        left: 100vw;
+    }
+}
+
+@keyframes moveCloud3 {
+    0% {
+        left: -300px;
+    }
+    100% {
+        left: 100vw;
+    }
+}
+
+@keyframes floatCloud {
+    0%,
+    100% {
+        transform: translateY(10px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    gap: 20px !important;
+}
+
+
+.logo {
+    width: 200px;
+}
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    z-index: -1;
+}
+
+.footer {
+    width: 100%;
+    display: block;
+}
+
+
+@font-face {
+    font-family: 'MainFont';
+    src: url(fontes/Jersey10-Regular.ttf);
+}
+.title{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'MainFont';]
+    margin-bottom: 5%;
+}
+#title1, #title2{
+    margin: 0px;
+    color: aliceblue;
+    text-shadow:
+    -2px -2px 0 black,
+     2px -2px 0 black,
+    -2px  2px 0 black,
+     2px  2px 0 black;
+     font-weight: 400 !important;
+}
+
+.choices{
+    margin-bottom: 7%;
+}
+
+.choiceButton {
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: white;
+    text-decoration: none;
+    font-family: 'MainFont';
+    font-size: 150%;
+    margin-bottom: 2%;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.choiceButton:hover {
+    background-color: rgb(187, 187, 187);
+}
