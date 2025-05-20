@@ -10,9 +10,6 @@
 
 <div class="painel-container">
     <img class="logo" src="imagens/logo/logo.png" alt="Logo TupiNet">
-    <div class="header">
-        <h1 id="title1" style="font-size: 40px;">Professor</h1>
-    </div>
     <div class="salas-container">
         <div class="salas-header">
             <h3>Gerenciar salas</h3>
@@ -22,28 +19,56 @@
             <span>Sala 01</span>
             <span>X2040L</span>
             <a href="#" class="ver">VER</a>
-            <a href="#" class="excluir">EXCLUIR</a>
+            <a href="javascript:void(0);" onclick="abrirModal('Sala 01')" class="excluir">EXCLUIR</a>
+
         </div>
         <div class="sala">
             <span>Sala 02</span>
             <span>M5320P</span>
             <a href="#" class="ver">VER</a>
-            <a href="#" class="excluir">EXCLUIR</a>
+            <a href="javascript:void(0);" onclick="abrirModal('Sala 01')" class="excluir">EXCLUIR</a>
+
 
         </div>
         <div class="sala">
             <span>Sala 03</span>
             <span>V32PLZ</span>
             <a href="#" class="ver">VER</a>
-            <a href="#" class="excluir">EXCLUIR</a>
+            <a href="javascript:void(0);" onclick="abrirModal('Sala 01')" class="excluir">EXCLUIR</a>
+
         </div>
     </div>
 </div>
 <img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
 <img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
 <img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+
 <footer>
     <img class="footer" src="imagens/footer/footer.png" alt="">
 </footer>
+
+<!-- Modal de confirmação de exclusão -->
+<div id="modal-excluir" class="modal-overlay">
+    <div class="modal-conteudo">
+        <p>Deseja excluir a Sala <strong id="nome-sala-excluir">?</strong></p>
+        <div class="botoes-excluir">
+            <button onclick="fecharModal()" class="cancelar-btn">CANCELAR</button>
+            <button class="excluir-btn">EXCLUIR</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function abrirModal(nomeSala) {
+        document.getElementById("nome-sala-excluir").textContent = nomeSala;
+        document.getElementById("modal-excluir").style.display = "flex";
+    }
+
+    function fecharModal() {
+        document.getElementById("modal-excluir").style.display = "none";
+    }
+</script>
+
 </body>
 </html>
