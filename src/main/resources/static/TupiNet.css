@@ -488,4 +488,115 @@ footer {
 }
 
 
+/* css completar palavra */
+
+/* Tela centralizada */
+.tela-palavra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Título */
+.titulo-jogo {
+    font-size: 34px;
+    color: white;
+    text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+    margin-bottom: 10px;
+    font-family: 'MainFont';
+}
+
+/* Texto de rodada e score */
+.status-jogo {
+    color: white;
+    font-size: 25px;
+    text-shadow: 2px 2px 0px black;
+    margin-bottom: 20px;
+    font-family: 'MainFont';
+}
+
+/* Caixa branca */
+.box-completar {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px 150px;
+    box-shadow: 4px 4px 0px black;
+    text-align: center;
+    border: 2px solid #d0e0e0;
+}
+
+/* Palavra com lacunas */
+.palavra {
+    font-size: 30px;
+    color: #333;
+    font-family: 'MainFont';
+}
+
+.palavra input {
+    font-family: 'MainFont';
+}
+
+/* Inputs sublinhados */
+.input-sublinhado {
+    border: none;
+    border-bottom: 2px solid black;
+    background: transparent;
+    font-size: 30px;
+    width: 24px;
+    text-align: center;
+    font-family: 'MainFont';
+    color: black;
+    margin: 0 4px;
+    padding: 0;
+}
+
+.input-sublinhado:focus {
+    outline: none;
+    border-bottom: 2px solid #4CAF50;
+}
+
+/* Botão */
+.botao-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.botao-enviar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 20px;
+    font-size: 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px black;
+    font-family: 'MainFont';
+}
+
+.botao-enviar:hover {
+    background-color: #45a049;
+}
+
+/* Mensagem de acerto/erro */
+.mensagem {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    color: white;
+    text-shadow: 2px 2px 0px black;
+    margin-top: 15px;
+    font-family: 'MainFont';
+    margin-top: 50px;
+    text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+}
+
+
+
+
+
+
+
+
 
