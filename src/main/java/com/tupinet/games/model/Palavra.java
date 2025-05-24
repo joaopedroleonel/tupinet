@@ -1,6 +1,8 @@
 package com.tupinet.games.model;
-
 import jakarta.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,16 +14,44 @@ public class Palavra {
     @Column(name = "palavra_id")
     private Integer id;
 
+    @Column(name = "texto", length = 100, nullable = false)
     private String texto;
 
-    @OneToMany(mappedBy = "palavra")
-    private Set<CacaPalavra> cacaPalavras;
+    @OneToMany(mappedBy = "palavra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TraducaoPalavra> traducoes = new HashSet<>();
 
-    @OneToMany(mappedBy = "palavra")
-    private Set<CompletarPalavra> completarPalavras;
+    @OneToMany(mappedBy = "palavra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<JogoPalavra> jogos = new HashSet<>();
 
-    @OneToMany(mappedBy = "palavra")
-    private Set<TraduzirPalavra> traduzirPalavras;
+    public Integer getId() {
+        return id;
+    }
 
-    // Getters e setters
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public Set<TraducaoPalavra> getTraducoes() {
+        return traducoes;
+    }
+
+    public void setTraducoes(Set<TraducaoPalavra> traducoes) {
+        this.traducoes = traducoes;
+    }
+
+    public Set<JogoPalavra> getJogos() {
+        return jogos;
+    }
+
+    public void setJogos(Set<JogoPalavra> jogos) {
+        this.jogos = jogos;
+    }
 }

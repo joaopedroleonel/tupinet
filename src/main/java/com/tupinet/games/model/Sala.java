@@ -1,6 +1,8 @@
 package com.tupinet.games.model;
-
 import jakarta.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,12 +14,17 @@ public class Sala {
     @Column(name = "sala_id")
     private Integer id;
 
+    @Column(name = "nome", length = 100, nullable = false)
     private String nome;
+
+    @Column(name = "codigo", length = 20, nullable = false, unique = true)
     private String codigo;
+
+    @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 
     @ManyToMany(mappedBy = "salas")
-    private Set<Professor> professores;
+    private Set<Professor> professores = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -25,8 +32,64 @@ public class Sala {
             joinColumns = @JoinColumn(name = "sala_id"),
             inverseJoinColumns = @JoinColumn(name = "jogo_id")
     )
-    private Set<Jogo> jogos;
+    private Set<Jogo> jogos = new HashSet<>();
 
-    // Getters e setters
+    @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Pontuacao> pontuacoes = new HashSet<>();
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    public Set<Professor> getProfessores() {
+        return professores;
+    }
+
+    public void setProfessores(Set<Professor> professores) {
+        this.professores = professores;
+    }
+
+    public Set<Jogo> getJogos() {
+        return jogos;
+    }
+
+    public void setJogos(Set<Jogo> jogos) {
+        this.jogos = jogos;
+    }
+
+    public Set<Pontuacao> getPontuacoes() {
+        return pontuacoes;
+    }
+
+    public void setPontuacoes(Set<Pontuacao> pontuacoes) {
+        this.pontuacoes = pontuacoes;
+    }
 }
-
