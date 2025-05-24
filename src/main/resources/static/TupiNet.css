@@ -1,5 +1,5 @@
 body {
-    margin: 0; 
+    margin: 0;
     border: none;
     overflow: hidden;
     background: linear-gradient(to bottom right, rgb(135, 206, 250), rgb(84,172,244) 60%);
@@ -19,13 +19,13 @@ body {
 
 #cloud2 {
     top: 25vh;
-    left: -300px; 
+    left: -300px;
     animation: moveCloud2 80s linear infinite, floatCloud 10s ease-in-out infinite;
     animation-delay: 10s;
 }
 #cloud3 {
     top: 40vh;
-    left: -300px; 
+    left: -300px;
     animation: moveCloud3 50s linear infinite, floatCloud 10s ease-in-out infinite;
     animation-delay: 0s;
 }
