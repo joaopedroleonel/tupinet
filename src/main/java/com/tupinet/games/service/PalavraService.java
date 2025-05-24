@@ -1,6 +1,6 @@
 package com.tupinet.games.service;
 
-import com.tupinet.games.model.Palavra;
+import com.tupinet.games.model.PalavraJogo;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,7 +14,7 @@ public class PalavraService {
 
     private final Random random = new Random();
 
-    public Palavra getPalavraAleatoria() {
+    public PalavraJogo getPalavraAleatoria() {
         String palavra = palavras.get(random.nextInt(palavras.size()));
         int tamanho = palavra.length();
 
@@ -34,10 +34,10 @@ public class PalavraService {
             lacunas.setCharAt(i, '_');
         }
 
-        return new Palavra(palavra, lacunas.toString(), indices);
+        return new PalavraJogo(palavra, lacunas.toString(), indices);
     }
 
-    public boolean validarResposta(Palavra palavra, Map<Integer, Character> respostas) {
+    public boolean validarResposta(PalavraJogo palavra, Map<Integer, Character> respostas) {
         for (Map.Entry<Integer, Character> entrada : respostas.entrySet()) {
             if (Character.toLowerCase(palavra.getCompleta().charAt(entrada.getKey())) !=
                     Character.toLowerCase(entrada.getValue())) {

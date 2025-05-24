@@ -1,6 +1,6 @@
 package com.tupinet.games.controller;
 
-import com.tupinet.games.model.Palavra;
+import com.tupinet.games.model.PalavraJogo;
 import com.tupinet.games.service.PalavraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class CompletarPalavraController {
     @Autowired
     private PalavraService palavraService;
 
-    private Palavra palavraAtual;
+    private PalavraJogo palavraAtual;
 
     @GetMapping("/completarPalavra")
     public String exibirJogo(Model model, HttpSession session) {
@@ -35,7 +35,7 @@ public class CompletarPalavraController {
 
     @PostMapping("/verificar")
     public String verificarResposta(@RequestParam Map<String, String> params, Model model, HttpSession session) {
-        Palavra palavraSessao = (Palavra) session.getAttribute("palavraAtual");
+        PalavraJogo palavraSessao = (PalavraJogo) session.getAttribute("palavraAtual");
 
         Map<Integer, Character> respostas = new HashMap<>();
         for (String key : params.keySet()) {
