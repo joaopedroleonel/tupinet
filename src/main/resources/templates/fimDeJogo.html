@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fim de Jogo - PALAVRECA</title>
+  <link rel="stylesheet" href="TupiNet.css">
+</head>
+<body>
+
+<div class="tela-palavra">
+  <img src="imagens/logo/logo.png" alt="Logo TupiNet" class="logo-jogo">
+
+  <h2 class="titulo-jogo">🏆 Fim de Jogo!</h2>
+
+  <div class="box-completar">
+    <p style="font-size: 30px;font-family: 'MainFont';">✅ Acertos: <strong th:text="${acertos}"></strong> de 10</p>
+    <p style="font-size: 30px;font-family: 'MainFont';">⭐ Pontuação Total: <strong th:text="${score}"></strong> pontos</p>
+
+    <div class="botao-container">
+      <a href="/reiniciar">
+        <button class="botao-enviar">Jogar Novamente</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

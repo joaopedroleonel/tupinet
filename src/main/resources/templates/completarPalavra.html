@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Completar Palavras - TupiNet</title>
+    <link rel="stylesheet" href="TupiNet.css">
+
+</head>
+<body>
+
+<div class="tela-palavra">
+    <img src="imagens/logo/logo.png" alt="Logo TupiNet" class="logo-jogo">
+
+    <h2 class="titulo-jogo">PALAVRECA (Completar Palavras)</h2>
+
+    <p class="status-jogo">
+        Rodada <span th:text="${rodada}"></span>/10 | ⭐ Score: <span th:text="${score}"></span>
+    </p>
+
+    <div class="box-completar">
+        <form th:action="@{/verificar}" method="post">
+            <p class="palavra">
+                <span th:each="i : ${#numbers.sequence(0, lacuna.length() - 1)}">
+                    <span th:if="${indices.contains(i)}">
+                        <input type="text" th:name="'letra' + ${i}" maxlength="1"
+                               class="input-sublinhado" required autocomplete="off"/>
+                    </span>
+                    <span th:if="${!indices.contains(i)}"
+                          th:text="${lacuna.charAt(i)}"></span>
+                </span>
+            </p>
+
+            <div class="botao-container">
+                <button type="submit" class="botao-enviar">Enviar</button>
+            </div>
+        </form>
+    </div>
+
+    <div th:if="${mensagem}">
+        <p class="mensagem" th:text="${mensagem}"></p>
+    </div>
+</div>
+
+<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+
+<footer>
+    <img src="imagens/footer/footer.png" alt="Cenário" class="footer">
+</footer>
+
+
+</body>
+</html>
