@@ -2,12 +2,12 @@ package com.tupinet.games.model;
 
 import java.util.Set;
 
-public class Palavra {
+public class PalavraJogo {
     private String completa;
     private String comLacunas;
     private Set<Integer> indicesFaltando;
 
-    public Palavra(String completa, String comLacunas, Set<Integer> indicesFaltando) {
+    public PalavraJogo(String completa, String comLacunas, Set<Integer> indicesFaltando) {
         this.completa = completa;
         this.comLacunas = comLacunas;
         this.indicesFaltando = indicesFaltando;
