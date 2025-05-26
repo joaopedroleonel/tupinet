@@ -1,3 +1,64 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+    border: 0;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+body {
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
 body {
     margin: 0; 
     border: none;
@@ -5,6 +66,11 @@ body {
     background: linear-gradient(to bottom right, rgb(135, 206, 250), rgb(84,172,244) 60%);
     font-weight: 400 !important;
 }
+
+h1 {
+    font-size: 2rem;
+}
+
 .cloud {
     position: absolute;
     width: 148px;
@@ -80,12 +146,12 @@ body {
     min-height: 100vh;
 }
 
-
 .logo {
     width: 200px;
 }
+
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     height: auto;
@@ -107,7 +173,7 @@ footer {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    font-family: 'MainFont';]
+    font-family: 'MainFont';
     margin-bottom: 5%;
 }
 #title1, #title2{
@@ -294,6 +360,7 @@ footer {
     padding: 10px 20px;
     font-size: 30px;
     cursor: pointer;
+    color: black;
 }
 
 .adicionar-sala:hover {
@@ -592,8 +659,77 @@ footer {
     text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
 }
 
+.login {
+    display: flex;
+    flex-direction: column;
+}
 
+.traducao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'MainFont';
+    color: white;
+}
 
+.traducao-title {
+    font-size: 3rem !important;
+    color: #521202;
+}
+
+.traducao p {
+    font-size: 1.5rem;
+}
+
+.buttonMicrofone {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #78c42b;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    color: white;
+    font-size: 1.4rem;
+    font-family: 'MainFont';
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.buttonMicrofone:disabled {
+    background-color: #78c42b99 !important;
+}
+
+.loader {
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #78c42b;
+    width: 80px;
+    height: 80px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.flex-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
 
 

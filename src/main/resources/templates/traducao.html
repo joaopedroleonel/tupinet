@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device‑width, initial‑scale=1.0"/>
+    <title>Tradução</title>
+    <link rel="stylesheet" href="TupiNet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .counters { margin-top: 1rem; display: flex; gap: 2rem; justify-content: center; }
+        .notification {
+          position: fixed;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          font-size: 1.1rem;
+          color: #fff;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.4s;
+          z-index: 200;
+        }
+        .notification.show { opacity: 1; }
+        .notification.certo { background-color: #28a745; }
+        .notification.errado { background-color: #dc3545; }
+        .botao-padrao {
+          color: white;
+          padding: 8px 20px;
+          font-size: 2rem;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-family: 'MainFont';
+          width: 100%;
+        }
+    </style>
+</head>
+<body style="font-family: 'MainFont'; color: white; font-size: 1.5rem;">
+<section id="loader" class="flex-center"
+         style="display:none; width:100%; height:100vh; background:rgba(0,0,0,0.55);
+                  position:absolute; z-index:100;">
+    <div class="loader"></div>
+</section>
+
+<div class="container">
+    <img class="logo" src="imagens/logo/logo.png" alt="Logo TupiNet">
+
+    <div id="game">
+        <div class="traducao">
+            <p>Diga a seguinte palavra:</p>
+            <h1 class="traducao-title" id="palavra" th:text="${palavra}"></h1>
+            <p>Tradução: <strong id="traducao" th:text="${traducao}"></strong></p>
+        </div>
+        <button id="takeToTalk" class="buttonMicrofone">
+            <i class="fa-solid fa-microphone"></i>
+        </button>
+    </div>
+
+    <div class="counters">
+        <div>Tentativas: <span id="tentativas">0</span>/10</div>
+        <div>Pontuação: <span id="pontuacao">0</span></div>
+    </div>
+</div>
+
+<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1" alt="">
+<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2" alt="">
+<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3" alt="">
+
+<footer>
+    <img class="footer" src="imagens/footer/footer.png" alt="">
+</footer>
+
+<div id="notification" class="notification"></div>
+
+<script>
+    let tentativas = 0;
+    let pontuacao = 0;
+    let current = { word: '', translate: '' };
+
+    window.addEventListener('load', () => {
+      current.word = document.getElementById('palavra').innerText;
+      current.translate = document.getElementById('traducao').innerText;
+      preencherContadores();
+      activeMicrophone();
+    });
+
+    function preencherContadores() {
+      document.getElementById('tentativas').innerText = tentativas;
+      document.getElementById('pontuacao').innerText = pontuacao;
+    }
+
+    async function carregarProxima() {
+      const res = await fetch('/traducao-aleatoria');
+      if (!res.ok) return;
+      const json = await res.json();
+      current.word = json.palavra;
+      current.translate = json.traducao;
+      document.getElementById('palavra').innerText = current.word;
+      document.getElementById('traducao').innerText = current.translate;
+      document.getElementById('takeToTalk').disabled = false;
+    }
+
+    function verifyAnswer(message) {
+      const clean = message
+        .toUpperCase()
+        .replace(/[^A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÄËÏÖÜÇ]/g, '');
+      return clean.includes(current.word.toUpperCase());
+    }
+
+    async function transcribe(audio) {
+      const resp = await fetch('/transcrever', {
+        method: 'POST',
+        headers: { 'Content-Type': 'audio/wav' },
+        body: new File([audio], 'audio/wav')
+      });
+      return resp.ok ? resp.json() : null;
+    }
+
+    function exibirFeedback(certo) {
+      const notif = document.getElementById('notification');
+      notif.className = 'notification show ' + (certo ? 'certo' : 'errado');
+      notif.innerText = certo ? '✔️ Acertou!' : '❌ Errou!';
+      setTimeout(() => notif.classList.remove('show'), 2000);
+    }
+
+    function activeMicrophone() {
+      let mediaRecorder, audioChunks = [], listening = false;
+      const btn = document.getElementById('takeToTalk');
+      btn.disabled = false;
+
+      navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+          mediaRecorder = new MediaRecorder(stream);
+
+          mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+          mediaRecorder.onstop = async () => {
+            btn.disabled = true;
+            document.getElementById('loader').style.display = 'flex';
+            const blob = new Blob(audioChunks, { type: 'audio/wav' });
+            const result = await transcribe(blob);
+            document.getElementById('loader').style.display = 'none';
+
+            const certo = result && verifyAnswer(result.text);
+
+            if(tentativas < 10){
+              tentativas++;
+            }
+
+            if (certo) {
+              pontuacao += 10;
+              exibirFeedback(true);
+              preencherContadores();
+              if (tentativas < 10) {
+                setTimeout(() => carregarProxima(), 500);
+              } else {
+                const game = document.getElementById('game');
+                game.innerHTML = '';
+
+                const fim = document.createElement('h1');
+                fim.innerText = 'Fim de jogo!';
+                fim.classList.add('traducao-title');
+
+                const recomecar = document.createElement('button');
+                recomecar.innerText = 'Jogar novamente';
+                recomecar.classList.add('botao-padrao');
+                recomecar.style.backgroundColor = '#4CAF50';
+                recomecar.addEventListener('click', () => {window.location.reload();});
+
+                const sair = document.createElement('a');
+                sair.innerText = 'Sair do Jogo';
+                sair.classList.add('botao-padrao');
+                sair.href = '/';
+                sair.style.backgroundColor = '#242424';
+
+                const div = document.createElement('div');
+                div.classList.add('traducao');
+                div.style.gap = '10px';
+                div.append(fim, recomecar, sair);
+                game.appendChild(div);
+              }
+            } else {
+              exibirFeedback(false);
+              preencherContadores();
+              setTimeout(() => btn.disabled = false, 2000);
+            }
+          };
+
+          btn.onclick = () => {
+            if (!listening) {
+              audioChunks = [];
+              mediaRecorder.start();
+              btn.innerHTML = '<i class="fa-solid fa-square"></i>';
+            } else {
+              mediaRecorder.stop();
+              btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+            }
+            listening = !listening;
+          };
+        })
+        .catch(console.error);
+    }
+</script>
+</body>
+</html>
