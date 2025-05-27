@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping
@@ -33,7 +34,13 @@ public class JogoTraducaoController {
     @ResponseBody
     @GetMapping("/traducao-aleatoria")
     public ResponseEntity<Map<String, String>> getPalavraAleatoria() {
-        return traducaoService.getPalavraAleatoriaComTraducao()
+        Optional<Map<String, String>> resultado = Optional.empty();
+
+        while (resultado.isEmpty()) {
+            resultado = traducaoService.getPalavraAleatoriaComTraducao();
+        }
+
+        return resultado
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.noContent().build());
     }
