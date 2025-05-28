@@ -147,7 +147,8 @@ h1 {
 }
 
 .logo {
-    width: 200px;
+    width: 250px;
+    margin-bottom: 30px;
 }
 
 footer {
@@ -671,6 +672,12 @@ footer {
     align-items: center;
     font-family: 'MainFont';
     color: white;
+}
+
+.traducao-tupi {
+    font-family: 'MainFont';
+    font-size: 21px;
+    margin-bottom: 20px;
 }
 
 .traducao-title {
