@@ -1,6 +1,6 @@
 package com.tupinet.games.controller;
 
-import com.tupinet.games.model.PalavraJogo;
+import com.tupinet.games.model.PalavraJogoCompletarP;
 import com.tupinet.games.service.PalavraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class CompletarPalavraController {
     @Autowired
     private PalavraService palavraService;
 
-    private PalavraJogo palavraAtual;
+    private PalavraJogoCompletarP palavraAtual;
 
     @GetMapping("/completarPalavra")
     public String exibirJogo(Model model, HttpSession session) {
@@ -30,12 +30,13 @@ public class CompletarPalavraController {
         model.addAttribute("indices", palavraAtual.getIndicesFaltando());
         model.addAttribute("rodada", session.getAttribute("rodada"));
         model.addAttribute("score", session.getAttribute("score"));
+        model.addAttribute("traducaoTupi", palavraAtual.getTraducaoTupi());
         return "completarPalavra.html";
     }
 
     @PostMapping("/verificar")
     public String verificarResposta(@RequestParam Map<String, String> params, Model model, HttpSession session) {
-        PalavraJogo palavraSessao = (PalavraJogo) session.getAttribute("palavraAtual");
+        PalavraJogoCompletarP palavraSessao = (PalavraJogoCompletarP) session.getAttribute("palavraAtual");
 
         Map<Integer, Character> respostas = new HashMap<>();
         for (String key : params.keySet()) {
@@ -82,6 +83,7 @@ public class CompletarPalavraController {
         model.addAttribute("indices", palavraAtual.getIndicesFaltando());
         model.addAttribute("rodada", rodada);
         model.addAttribute("score", score);
+        model.addAttribute("traducaoTupi", palavraAtual.getTraducaoTupi());
 
         return "completarPalavra.html";
     }

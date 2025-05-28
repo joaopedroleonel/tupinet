@@ -10,7 +10,7 @@
 <body>
 
 <div class="tela-palavra">
-    <img src="imagens/logo/logo.png" alt="Logo TupiNet" class="logo-jogo">
+    <img src="imagens/logo/logo.png" alt="Logo TupiNet" class="logo">
 
     <h2 class="titulo-jogo">PALAVRECA (Completar Palavras)</h2>
 
@@ -20,6 +20,9 @@
 
     <div class="box-completar">
         <form th:action="@{/verificar}" method="post">
+            <p class="traducao-tupi">
+                <strong>Tradução em Tupi:</strong> <span th:text="${traducaoTupi}">---</span>
+            </p>
             <p class="palavra">
                 <span th:each="i : ${#numbers.sequence(0, lacuna.length() - 1)}">
                     <span th:if="${indices.contains(i)}">
