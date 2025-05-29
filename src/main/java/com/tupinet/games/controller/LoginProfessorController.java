@@ -8,7 +8,7 @@ public class LoginProfessorController {
 
     @GetMapping("/login-professor")
     public String loginP(){
-        return "loginP.html";
+        return "loginProfessor.html";
     }
 
 }

@@ -4,69 +4,83 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerenciamento de Salas</title>
-    <link rel="stylesheet" href="TupiNet.css" >
+    <link rel="stylesheet" href="gerenciamentoSalas.css" />
 </head>
 <body>
 
 <div class="painel-container">
-    <img class="logo" src="imagens/logo/logo.png" alt="Logo TupiNet">
+    <img class="logo" src="imagens/logo/logo.png" alt="Logo TupiNet" />
+
     <div class="salas-container">
         <div class="salas-header">
             <h3>Gerenciar salas</h3>
             <button class="adicionar-sala">+ Adicionar sala</button>
         </div>
+
         <div class="sala">
             <span>Sala 01</span>
             <span>X2040L</span>
-            <a href="#" class="ver">VER</a>
+            <a href="/ver-sala?sala=Sala01&codigo=X2040L" class="ver">VER</a>
             <a href="javascript:void(0);" onclick="abrirModal('Sala 01')" class="excluir">EXCLUIR</a>
-
         </div>
+
         <div class="sala">
             <span>Sala 02</span>
             <span>M5320P</span>
-            <a href="#" class="ver">VER</a>
-            <a href="javascript:void(0);" onclick="abrirModal('Sala 01')" class="excluir">EXCLUIR</a>
-
-
+            <a href="/ver-sala?sala=Sala02&codigo=M5320P" class="ver">VER</a>
+            <a href="javascript:void(0);" onclick="abrirModal('Sala 02')" class="excluir">EXCLUIR</a>
         </div>
+
         <div class="sala">
             <span>Sala 03</span>
             <span>V32PLZ</span>
-            <a href="#" class="ver">VER</a>
-            <a href="javascript:void(0);" onclick="abrirModal('Sala 01')" class="excluir">EXCLUIR</a>
-
+            <a href="/ver-sala?sala=Sala03&codigo=V32PLZ" class="ver">VER</a>
+            <a href="javascript:void(0);" onclick="abrirModal('Sala 03')" class="excluir">EXCLUIR</a>
         </div>
+
     </div>
 </div>
+
+<!-- Nuvens -->
 <img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
 <img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
 <img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
 
-<footer>
-    <img class="footer" src="imagens/footer/footer.png" alt="">
-</footer>
-
-<!-- Modal de confirmação de exclusão -->
+<!-- Modal de confirmação -->
 <div id="modal-excluir" class="modal-overlay">
     <div class="modal-conteudo">
-        <p>Deseja excluir a Sala <strong id="nome-sala-excluir">?</strong></p>
+        <p>Deseja excluir a <strong id="nome-sala-excluir"></strong>?</p>
         <div class="botoes-excluir">
             <button onclick="fecharModal()" class="cancelar-btn">CANCELAR</button>
-            <button class="excluir-btn">EXCLUIR</button>
+            <button class="excluir-btn" onclick="confirmarExclusao()">EXCLUIR</button>
         </div>
     </div>
 </div>
 
+<!-- Rodapé -->
+<footer>
+    <img class="footer" src="imagens/footer/footer.png" alt="">
+</footer>
 
 <script>
+    let salaParaExcluir = "";
+
     function abrirModal(nomeSala) {
+        salaParaExcluir = nomeSala;
         document.getElementById("nome-sala-excluir").textContent = nomeSala;
         document.getElementById("modal-excluir").style.display = "flex";
     }
 
     function fecharModal() {
         document.getElementById("modal-excluir").style.display = "none";
+        salaParaExcluir = "";
+    }
+
+    function confirmarExclusao() {
+        alert("Sala " + salaParaExcluir + " foi excluída!");
+        fecharModal();
+        // Aqui você pode adicionar lógica para remover a sala do DOM
+        // ou fazer uma requisição para o backend, se desejar.
     }
 </script>
 

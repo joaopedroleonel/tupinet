@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdicionarSalaController {
 
-    @GetMapping("/adicionar")
+    @GetMapping("/adicionar-sala")
     public String adicionarSala() {
-        return "novaSala.html";
+        return "adicionarSala.html";
     }
 
 }
