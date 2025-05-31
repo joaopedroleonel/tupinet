@@ -15,6 +15,7 @@
 
     <div class="game-area">
         <div class="score-panel">
+            <p>Tentativa: <span id="tentativas">1</span>/10</p>
             <p>Pontuação:</p>
             <p id="score">0</p>
         </div>
@@ -25,9 +26,18 @@
         </div>
 
         <div class="word-panel">
+            <p>Tempo: <span id="timer">300</span>s</p>
             <p>Encontre:</p>
             <p id="target-word">????</p>
         </div>
+    </div>
+</div>
+<div id="toast-container"></div>
+<div id="game-over-screen" style="display: none;">
+    <div class="game-over-box">
+        <h2 id="game-over-message"></h2>
+        <p id="final-score"></p>
+        <button onclick="voltarParaInicio()">Voltar para a página principal</button>
     </div>
 </div>
 <footer>
