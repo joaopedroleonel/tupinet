@@ -231,7 +231,7 @@ function apresentarResumoFinal() {
         htmlResumo += `<table class="resumo-tabela">
           <tr>
             <th>Questão</th>
-            <th>Sua resposta</th>
+            <th>Resposta</th>
             <th>Certa?</th>
             <th>Correta</th>
           </tr>`;
