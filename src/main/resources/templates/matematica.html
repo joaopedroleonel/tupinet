@@ -1,159 +1,64 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <link rel="stylesheet" href="supercalculo.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TupiNet</title>
-    <link rel="stylesheet" href="TupiNet.css">
-    <style>
-        .texto-questao {
-            font-size: 2rem;
-            color: white;
-            font-family: 'MainFont';
-            text-shadow:
-    </style>
-    <style>
-    -2px -2px 0 black,
-                2px -2px 0 black,
-                -2px  2px 0 black,
-                2px  2px 0 black;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        #linha-vazia {
-            height: 1.5rem;
-        }
-        .choices {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .choiceButton {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            background-color: #007ACC;
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            user-select: none;
-        }
-        .choiceButton:hover {
-            background-color: #005A9E;
-        }
-    </style>
+    <title>Super Calculo</title>
 </head>
 <body>
-
 <div class="container">
-    <img class="logo" src="imagens/logo/logo.png" alt="Logo TupiNet">
-
+    <img class="logo" src="imagens/logo/logo.png" alt="">
     <div class="title">
-        <h1 id="title1">Jogo de Matemática</h1>
+        <h1 id="title1">Super Calculo</h1>
     </div>
+    <div class="supercalculo-wrapper">
 
-    <div id="quadrado" style="text-align:center;">
-        <div class="texto-questao" id="questao-numero">Questão:</div>
-        <div id="linha-vazia"></div>
-        <div class="texto-questao" id="questao-conta"></div>
+        <div class="quiz-header">
+            <div class="questao-atual"></div>
+            <div class="nivel-selector">
+                <button class="nivel-btn" data-nivel="facil">Fácil</button>
+                <button class="nivel-btn" data-nivel="medio">Médio</button>
+                <button class="nivel-btn" data-nivel="dificil">Difícil</button>
+            </div>
+            <div class="cronometro"></div>
+        </div>
+        <div class="score-exibicao"></div>
+
+        <div class="botoes-e-quadrado">
+            <button class="botao-apagar">apagar</button>
+            <div class="calculo-quadrado">
+                <span class="calcule-label">calcule:</span>
+                <div class="calculo-central">2 + 2 = _</div>
+            </div>
+            <button class="botao-enviar">enviar</button>
+        </div>
+        <div class="numeros-painel">
+            <div class="numeros-linha">
+                <div class="numero-quadrado">0</div>
+                <div class="numero-quadrado">1</div>
+                <div class="numero-quadrado">2</div>
+                <div class="numero-quadrado">3</div>
+                <div class="numero-quadrado">4</div>
+            </div>
+            <div class="numeros-linha">
+                <div class="numero-quadrado">5</div>
+                <div class="numero-quadrado">6</div>
+                <div class="numero-quadrado">7</div>
+                <div class="numero-quadrado">8</div>
+                <div class="numero-quadrado">9</div>
+            </div>
+        </div>
     </div>
-
-    <div class="choices">
-        <a class="choiceButton" onclick="verificarResposta(this)"></a>
-        <a class="choiceButton" onclick="verificarResposta(this)"></a>
-        <a class="choiceButton" onclick="verificarResposta(this)"></a>
-        <a class="choiceButton" onclick="verificarResposta(this)"></a>
-    </div>
-
     <footer>
-        <img class="footer" src="imagens/footer/footer.png" alt="Rodapé">
+        <img class="footer" src="imagens/footer/footer.png" alt="">
     </footer>
 </div>
+<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
 
-<!-- Nuvens de fundo -->
-<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1" alt="">
-<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2" alt="">
-<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3" alt="">
-
-
-<script>
-    const totalQuestoes = 20;
-    let questaoAtual = 0;
-    let pontuacao = 0;
-    let respostaCorreta = 0;
-
-    const questaoNumero = document.getElementById("questao-numero");
-    const questaoConta = document.getElementById("questao-conta");
-    const botoes = document.querySelectorAll(".choiceButton");
-
-    function gerarQuestao() {
-        if (questaoAtual >= totalQuestoes) {
-            questaoNumero.innerText = `Fim do jogo! Você acertou ${pontuacao} de ${totalQuestoes} questões.`;
-            questaoConta.innerText = "";
-            botoes.forEach(btn => btn.style.display = "none");
-            return;
-        }
-
-        questaoAtual++;
-
-        const operacoes = ["+", "-", "*", "/"];
-        const operacao = operacoes[Math.floor(Math.random() * operacoes.length)];
-        let num1, num2;
-
-        switch (operacao) {
-            case "+":
-                num1 = Math.floor(Math.random() * 10) + 1;
-                num2 = Math.floor(Math.random() * 10) + 1;
-                respostaCorreta = num1 + num2;
-                break;
-            case "-":
-                num1 = Math.floor(Math.random() * 10) + 1;
-                num2 = Math.floor(Math.random() * num1) + 1;
-                respostaCorreta = num1 - num2;
-                break;
-            case "*":
-                num1 = Math.floor(Math.random() * 10) + 1;
-                num2 = Math.floor(Math.random() * 10) + 1;
-                respostaCorreta = num1 * num2;
-                break;
-            case "/":
-                num2 = Math.floor(Math.random() * 9) + 1;
-                respostaCorreta = Math.floor(Math.random() * 10) + 1;
-                num1 = num2 * respostaCorreta;
-                break;
-        }
-
-        questaoNumero.innerText = `Questão ${questaoAtual}:`;
-        questaoConta.innerText = `${num1} ${operacao} ${num2} = ?`;
-
-        const opcoes = [respostaCorreta];
-        while (opcoes.length < 4) {
-            let variacao = Math.floor(Math.random() * 5) + 1;
-            let opcaoErrada = respostaCorreta + (Math.random() < 0.5 ? -variacao : variacao);
-            if (!opcoes.includes(opcaoErrada) && opcaoErrada >= 0) {
-                opcoes.push(opcaoErrada);
-            }
-        }
-
-        opcoes.sort(() => Math.random() - 0.5);
-
-        botoes.forEach((btn, i) => {
-            btn.innerText = opcoes[i];
-            btn.style.display = "inline-block";
-        });
-    }
-
-    function verificarResposta(botao) {
-        const resposta = Number(botao.innerText);
-        if (resposta === respostaCorreta) {
-            pontuacao++;
-        }
-        gerarQuestao();
-    }
-
-    gerarQuestao();
-</script>
+<script src="supercalculo.js"></script>
 </body>
 </html>
