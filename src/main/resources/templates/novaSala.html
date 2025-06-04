@@ -1,38 +1,103 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adicionar Sala</title>
-  <link rel="stylesheet" href="TupiNet.css" />
+  <link rel="stylesheet" th:href="@{/novaSala.css}" />
+  <style>
+    .image-label {
+      position: relative;
+      display: inline-block;
+    }
+    .jogo {
+      width: 80px;   /* ajuste o tamanho conforme necessário */
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 3px solid transparent;
+      transition: border 0.2s;
+    }
+    /* Checkbox customizado */
+    .custom-checkbox {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      width: 22px;
+      height: 22px;
+      z-index: 2;
+      cursor: pointer;
+      accent-color: white; /* Para navegadores que já suportam accent-color */
+      appearance: none;
+      -webkit-appearance: none;
+      background: #fff;
+      border: 2px solid #aaa;
+      border-radius: 6px;
+      transition: border 0.2s, box-shadow 0.2s;
+      outline: none;
+      box-shadow: 0 1px 4px #0001;
+    }
+
+    .custom-checkbox:checked {
+      border: 2px solid #e11d48;     /* Vermelho do Tailwind (rose-600) */
+      background-color: #e11d48;
+    }
+
+    /* Checkmark manual (pseudo-elemento) */
+    .custom-checkbox:checked::after {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 5px;
+      top: 2.2px;
+      width: 8px;
+      height: 13px;
+      border: solid #fff;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+    }
+
+    .jogos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    /* Opcional: destaque na imagem selecionada */
+    .custom-checkbox:checked ~ .jogo {
+      border: 3px solid #e11d48;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
-  <img src="imagens/logo/logo.png" alt="TupiNet" class="logo" />
+  <img th:src="@{/imagens/logo/logo.png}" class="logo" />
 
   <div class="formulario">
     <h2>Nova Sala</h2>
-    <label for="nomeSala">Nome</label>
-    <input type="text" id="nomeSala" placeholder="Digite o nome da sala" />
+    <form th:action="@{/salas}" th:object="${sala}" method="post">
+      <label for="nomeSala">Nome</label>
+      <input type="text" id="nomeSala" th:field="*{nome}" placeholder="Digite o nome da sala" required />
 
-    <p style="font-size: 30px; margin: 20px auto;">Selecione o jogo</p>
-    <div class="jogos">
-      <img src="imagens/jogos/caca-palavras.png" alt="Jogo 1" class="jogo">
-      <img src="imagens/jogos/memor.png" alt="Jogo 2" class="jogo">
-      <img src="imagens/jogos/palavreca.png" alt="Jogo 3" class="jogo">
-      <img src="imagens/jogos/super.png" alt="Jogo 4" class="jogo">
-    </div>
-
-    <button class="confirmar">Confirmar</button>
+      <p>Selecione o(s) jogo(s):</p>
+      <div class="jogos">
+        <div class="jogo-item" th:each="jogo : ${jogos}">
+          <label class="image-label">
+            <input type="checkbox" th:field="*{jogosIds}" th:value="${jogo.id}" class="custom-checkbox"/>
+            <img th:src="@{'/imagens/jogos/' + ${jogo.imagem}}" th:alt="${jogo.nome}" class="jogo"/>
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="confirmar">Confirmar</button>
+    </form>
   </div>
 
-  <!-- Elementos visuais -->
-  <img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
-  <img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
-  <img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+  <img th:src="@{/imagens/nuvens/Nuvem1.png}" class="cloud" id="cloud1">
+  <img th:src="@{/imagens/nuvens/Nuvem2.png}" class="cloud" id="cloud2">
+  <img th:src="@{/imagens/nuvens/Nuvem3.png}" class="cloud" id="cloud3">
 
   <footer>
-    <img class="footer" src="imagens/footer/footer.png" alt="">
+    <img class="footer" th:src="@{/imagens/footer/footer.png}" alt="">
   </footer>
 </div>
 </body>
