@@ -8,6 +8,7 @@ public class SalaRespostaDTO {
     private String codigo;
     private Boolean ativo;
     private Set<Integer> jogosIds;
+    private String rota;
 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
@@ -23,5 +24,8 @@ public class SalaRespostaDTO {
 
     public Set<Integer> getJogosIds() { return jogosIds; }
     public void setJogosIds(Set<Integer> jogosIds) { this.jogosIds = jogosIds; }
+
+    public String getRota() { return rota; }
+    public void setRota(String rota) { this.rota = rota; }
 
 }

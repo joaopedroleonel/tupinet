@@ -14,4 +14,7 @@ public interface SalaRepository extends JpaRepository<Sala, Integer> {
     @Override
     @EntityGraph(attributePaths = "jogos")
     List<Sala> findAll();
+
+    @EntityGraph(attributePaths = "jogos")
+    Optional<Sala> findWithJogosByCodigo(String codigo);
 }

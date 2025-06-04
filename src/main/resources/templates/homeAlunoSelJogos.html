@@ -1,57 +1,47 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/frontAluno.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Entrar na Sala</title>
-
-
+    <title>Seleção de Jogos</title>
 </head>
 <body>
 <!--cor mais leve (185,215,234) cor mais pesada (118,159,205) ou original (84,172,244)-->
 <div class="container">
-    <img class="logo" src="imagens/logo/logo.png" alt="">
+    <img class="logo" src="/imagens/logo/logo.png" alt="">
 
     <div class="title">
-        <h1 id="title1">Código da sala: <span>X2040L</span></h1>
-
+        <h1 id="title1">Código da sala: <span th:text="${codigoSala}"></span></h1>
     </div>
 
     <div class="login-container">
         <p class="titulo">Selecione o Jogo:</p>
         <div class="jogos-grid">
-            <div class="jogo-card">
-                <img src="imagens/jogos/caca-palavras.jpg" alt="Jogo 1">
-            </div>
-            <div class="jogo-card">
-                <img src="imagens/jogos/memor.jpg" alt="Jogo 2">
-            </div>
-            <div class="jogo-card">
-                <img src="imagens/jogos/palavreca.jpg" alt="Jogo 3">
-            </div>
-            <div class="jogo-card">
-                <img src="imagens/jogos/super.png" alt="Jogo 4">
+            <div class="jogo-card"
+                 th:each="jogo : ${jogos}"
+                 th:attr="data-rota=${jogo.rota}">
+                <img th:src="@{'/imagens/jogos/' + ${jogo.imagem}}" />
             </div>
         </div>
-
         <div class="jogar-container">
             <button class="jogar">Jogar</button>
+        </div>
         </div>
 
     </div>
 
     <footer>
-        <img class="footer" src="imagens/footer/footer.png" alt="">
+        <img class="footer" src="/imagens/footer/footer.png" alt="">
     </footer>
-
 </div>
-<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
-<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
-<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+<img src="/imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img src="/imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img src="/imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
 
 <script>
+    let rotaSelecionada = null;
     const jogoCards = document.querySelectorAll('.jogo-card');
     const botaoJogar = document.querySelector('.jogar');
 
@@ -59,11 +49,17 @@
         card.addEventListener('click', () => {
             jogoCards.forEach(c => c.classList.remove('selecionado'));
             card.classList.add('selecionado');
+            rotaSelecionada = card.getAttribute('data-rota');
         });
     });
 
     botaoJogar.addEventListener('click', () => {
-        jogoCards.forEach(c => c.classList.remove('selecionado'));
+        if(rotaSelecionada){
+            let codigoSala = document.querySelector('#title1 span').innerText;
+            window.location.href = rotaSelecionada + "?codigo=" + encodeURIComponent(codigoSala);
+        } else {
+            alert("Selecione um jogo para continuar.");
+        }
     });
 </script>
 </body>

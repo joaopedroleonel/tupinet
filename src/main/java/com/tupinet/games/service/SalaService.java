@@ -25,7 +25,6 @@ public class SalaService {
         Sala sala = new Sala();
         sala.setNome(dto.getNome());
 
-        // Garantindo campo ativo nunca nulo
         if (dto.getAtivo() == null) {
             sala.setAtivo(true); // Valor padrão: ativa na criação
         } else {
@@ -45,9 +44,8 @@ public class SalaService {
         Sala sala = salaRepository.findById(id).orElseThrow(() -> new RuntimeException("Sala não encontrada"));
         sala.setNome(dto.getNome());
 
-        // Garantindo campo ativo nunca nulo na edição
         if (dto.getAtivo() == null) {
-            sala.setAtivo(true); // Ou, se quiser, mantenha o valor antigo ou use false
+            sala.setAtivo(true);
         } else {
             sala.setAtivo(dto.getAtivo());
         }
@@ -65,10 +63,11 @@ public class SalaService {
     }
 
     public SalaRespostaDTO buscarSalaPorCodigo(String codigo) {
-        Sala sala = salaRepository.findByCodigo(codigo)
+        Sala sala = salaRepository.findWithJogosByCodigo(codigo)
                 .orElseThrow(() -> new RuntimeException("Sala não encontrada pelo código"));
         return toRespostaDTO(sala);
     }
+
 
     public List<SalaRespostaDTO> listarSalas() {
         return salaRepository.findAll()

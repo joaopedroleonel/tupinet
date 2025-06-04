@@ -261,9 +261,13 @@ footer {
 }
 
 .jogo-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 6px;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    background: #f6faff;
 }
 
 .titulo {
