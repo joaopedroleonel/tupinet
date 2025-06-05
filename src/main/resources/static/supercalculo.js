@@ -1,9 +1,13 @@
+// supercalculo.js
+
+// Quantidade de perguntas por nível
 const perguntasPorNivel = {
     facil: 8,
     medio: 12,
-    dificil: 12 // Alterado de 15 para 12
+    dificil: 12
 };
 
+// Variáveis de estado
 let nivelAtual = "facil";
 let questoes = [];
 let indiceAtual = 0;
@@ -14,7 +18,9 @@ let cronometroInterval = null;
 let msInicio = null;
 let msFinal = null;
 
-/* GERA AS PERGUNTAS */
+/**
+ * Gera perguntas de acordo com o nível
+ */
 function gerarPerguntas(nivel) {
     const perguntas = [];
     if (nivel === "facil") {
@@ -91,15 +97,22 @@ function gerarPerguntas(nivel) {
     return perguntas;
 }
 
+/**
+ * Atualiza a interface da questão atual
+ */
 function atualizarQuestao() {
     document.body.classList.remove("final");
     if (!questoes[indiceAtual]) return;
     const questaoAtual = questoes[indiceAtual];
     document.querySelector('.questao-atual').textContent = `Questão ${indiceAtual + 1} de ${questoes.length}`;
+    // Preenche '_' para resposta faltante
     const respostaOculta = respostaUsuario.padEnd(questaoAtual.resposta.length, "_");
     document.querySelector('.calculo-central').textContent = questaoAtual.question + " " + respostaOculta;
 }
 
+/**
+ * Inicia o cronômetro
+ */
 function iniciaCronometro() {
     msInicio = Date.now();
     msFinal = null;
@@ -111,12 +124,18 @@ function iniciaCronometro() {
     }, 250);
 }
 
+/**
+ * Para o cronômetro
+ */
 function pararCronometro() {
     msFinal = Date.now();
     if (cronometroInterval) clearInterval(cronometroInterval);
     document.querySelector('.cronometro').textContent = formatarTempo(msFinal - msInicio);
 }
 
+/**
+ * Formata o tempo (ms) para mm:ss
+ */
 function formatarTempo(ms) {
     let s = Math.floor(ms / 1000);
     let min = Math.floor(s / 60);
@@ -124,6 +143,9 @@ function formatarTempo(ms) {
     return `${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
 }
 
+/**
+ * Reinicia o quiz para o nível escolhido
+ */
 function reiniciarQuiz(nivel) {
     nivelAtual = nivel;
     questoes = gerarPerguntas(nivel);
@@ -138,10 +160,14 @@ function reiniciarQuiz(nivel) {
     atualizarQuestao();
     iniciaCronometro();
     document.body.classList.remove("final");
+    // Botão ativo do nível
     document.querySelectorAll(".nivel-btn").forEach(btn => btn.classList.remove('active'));
     document.querySelector(`.nivel-btn[data-nivel="${nivel}"]`).classList.add('active');
 }
 
+/**
+ * Responde adicionando o número digitado
+ */
 function responder(numero) {
     if (!questoes[indiceAtual]) return;
     const respostaEsperada = questoes[indiceAtual].resposta;
@@ -151,15 +177,21 @@ function responder(numero) {
     }
 }
 
+/**
+ * Limpa resposta digitada
+ */
 function apagar() {
     respostaUsuario = "";
     atualizarQuestao();
 }
 
+/**
+ * Envia a resposta atual
+ */
 function enviar() {
     if (!questoes[indiceAtual]) return;
     if (respostaUsuario === "") {
-        // feedback opcional (alerta, animação, etc)
+        // feedback visual se não digitou nada
         const calculo = document.querySelector('.calculo-central');
         calculo.classList.remove("correto", "errado");
         calculo.classList.add("errado");
@@ -168,7 +200,7 @@ function enviar() {
             atualizarQuestao();
             calculo.classList.remove("errado");
         }, 1000);
-        return; // Não prossegue!
+        return;
     }
 
     const respostaEsperada = questoes[indiceAtual].resposta;
@@ -187,6 +219,9 @@ function enviar() {
     }
 }
 
+/**
+ * Mostra feedback rápido (correto/errado)
+ */
 function showFeedback(texto, positivo) {
     const calculo = document.querySelector('.calculo-central');
     calculo.textContent = texto;
@@ -197,6 +232,9 @@ function showFeedback(texto, positivo) {
     }, 1000);
 }
 
+/**
+ * Vai para a próxima questão ou faz o resumo final
+ */
 function proximaQuestao() {
     indiceAtual++;
     respostaUsuario = "";
@@ -208,10 +246,12 @@ function proximaQuestao() {
     atualizarQuestao();
 }
 
-// NOVA FUNÇÃO DE RESUMO FINAL: DIVIDE EM DUAS TABELAS LADO A LADO
+/**
+ * Apresenta o resumo final do quiz e salva no backend
+ */
 function apresentarResumoFinal() {
     pararCronometro();
-    document.body.classList.add("final"); // Esconde botoes-e-quadrado e numeros-painel
+    document.body.classList.add("final");
     document.querySelector('.calculo-central').textContent = "";
     document.querySelector('.questao-atual').textContent = "";
     let htmlResumo = `<strong>Parabéns!</strong><br>
@@ -220,7 +260,6 @@ function apresentarResumoFinal() {
     Você acertou ${score/10}/${questoes.length} questões!<br><br>
     <strong>Respostas:</strong><br>`;
 
-    // Divide em duas tabelas de mesmo tamanho
     const metade = Math.ceil(respostasUsuario.length / 2);
     const tabela1 = respostasUsuario.slice(0, metade);
     const tabela2 = respostasUsuario.slice(metade);
@@ -248,6 +287,47 @@ function apresentarResumoFinal() {
 
     htmlResumo += `</div>`;
     document.querySelector(".score-exibicao").innerHTML = htmlResumo;
+
+    // 1. RECUPERA DADOS
+    const nomeAluno = sessionStorage.getItem('nomeAluno');
+    const codigoSala = sessionStorage.getItem('codigoSala'); // <- isso é o CÓDIGO, string
+    const jogoId = sessionStorage.getItem('jogoId');
+    const pontos = score;
+    const acertos = respostasUsuario.filter(r => r.acertou).length;
+
+    if (!nomeAluno || !codigoSala || !jogoId) {
+        alert("Erro: Dados do aluno, sala ou jogo não encontrados. Faça login novamente!");
+        return;
+    }
+
+    fetch('http://localhost:8080/api/salas/por-codigo/' + encodeURIComponent(codigoSala))
+        .then(response => {
+            if (!response.ok) throw new Error('Sala não encontrada para este código!');
+            return response.json();
+        })
+        .then(salaId => {
+            return fetch('http://localhost:8080/salvar-pontuacao', {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    jogoId: parseInt(jogoId),
+                    salaId: salaId,
+                    aluno: nomeAluno,
+                    pontos: pontos,
+                    acertos: acertos
+                })
+            });
+        })
+        .then(res => {
+            if(res && res.ok) {
+                console.log("Pontuação salva no backend!");
+            } else {
+                alert("Erro ao salvar pontuação no backend!");
+            }
+        })
+        .catch(err => {
+            alert("Erro ao salvar pontuação: " + err.message);
+        });
 }
 
 document.querySelectorAll(".numero-quadrado").forEach(btn =>
