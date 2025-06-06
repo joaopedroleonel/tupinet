@@ -27,7 +27,6 @@ public class PontuacaoService {
 
     @Transactional
     public Pontuacao setPontuacao(PontuacaoDTO dto){
-
         Pontuacao pontuacao = new Pontuacao();
 
         Integer jogoId = dto.getJogoId();
@@ -46,7 +45,5 @@ public class PontuacaoService {
         pontuacao.setPontos(dto.getPontos());
 
         return pontuacaoRepository.save(pontuacao);
-
     }
-
 }
