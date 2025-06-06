@@ -301,7 +301,7 @@ function apresentarResumoFinal() {
     }
 
 
-    //
+    ///
 
     fetch('http://localhost:8080/api/salas/por-codigo/' + encodeURIComponent(codigoSala))
         .then(response => {
