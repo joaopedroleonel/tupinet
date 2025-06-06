@@ -300,6 +300,9 @@ function apresentarResumoFinal() {
         return;
     }
 
+
+    //
+
     fetch('http://localhost:8080/api/salas/por-codigo/' + encodeURIComponent(codigoSala))
         .then(response => {
             if (!response.ok) throw new Error('Sala não encontrada para este código!');
