@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class VerSalaController {
 
     @GetMapping("/ver-sala")
-    public String verSala(){
-        return "verSala.html";
+    public String verSala() {
+        return "verSala"; // sem .html
     }
+
 }

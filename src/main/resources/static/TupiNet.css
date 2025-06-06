@@ -139,7 +139,6 @@ h1 {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    gap: 20px !important;
     text-align: center;
     padding: 20px;
     position: relative;
@@ -573,7 +572,8 @@ footer {
 
 .botoes-excluir {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 30px;
     margin-top: 20px;
 }
 
@@ -599,7 +599,7 @@ footer {
 }
 
 
-/* css completar palavra */
+/* css Palavreca */
 
 /* Tela centralizada */
 .tela-palavra {
