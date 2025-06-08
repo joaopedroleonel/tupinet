@@ -27,11 +27,8 @@ public class Jogo {
     @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<JogoPalavra> palavras = new HashSet<>();
 
-    @ManyToMany(mappedBy = "jogos")
-    private Set<Sala> salas = new HashSet<>();
-
     @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Pontuacao> pontuacoes = new HashSet<>();
+    private Set<SalaJogo> salaJogos = new HashSet<>();
 
     @Column(name = "rota", length = 100, nullable = false)
     private String rota;
@@ -76,20 +73,12 @@ public class Jogo {
         this.palavras = palavras;
     }
 
-    public Set<Sala> getSalas() {
-        return salas;
+    public Set<SalaJogo> getSalaJogos() {
+        return salaJogos;
     }
 
-    public void setSalas(Set<Sala> salas) {
-        this.salas = salas;
-    }
-
-    public Set<Pontuacao> getPontuacoes() {
-        return pontuacoes;
-    }
-
-    public void setPontuacoes(Set<Pontuacao> pontuacoes) {
-        this.pontuacoes = pontuacoes;
+    public void setSalaJogos(Set<SalaJogo> salaJogos) {
+        this.salaJogos = salaJogos;
     }
 
     public String getRota() { return rota; }

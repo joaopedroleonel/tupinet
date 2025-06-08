@@ -1,12 +1,10 @@
 package com.tupinet.games.service;
 
 import com.tupinet.games.DTO.PontuacaoDTO;
-import com.tupinet.games.model.Jogo;
 import com.tupinet.games.model.Pontuacao;
-import com.tupinet.games.model.Sala;
-import com.tupinet.games.repository.JogoRepository;
+import com.tupinet.games.model.SalaJogo;
 import com.tupinet.games.repository.PontuacaoRepository;
-import com.tupinet.games.repository.SalaRepository;
+import com.tupinet.games.repository.SalaJogoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,25 +18,18 @@ public class PontuacaoService {
     private PontuacaoRepository pontuacaoRepository;
 
     @Autowired
-    private JogoRepository jogoRepository;
-
-    @Autowired
-    private SalaRepository salaRepository;
+    private SalaJogoRepository salaJogoRepository;
 
     @Transactional
-    public Pontuacao setPontuacao(PontuacaoDTO dto){
+    public Pontuacao setPontuacao(PontuacaoDTO dto) {
+
+        SalaJogo salaJogo = salaJogoRepository
+                .findBySalaIdAndJogoId(dto.getSalaId(), dto.getJogoId())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Associação Sala-Jogo não encontrada: sala=" + dto.getSalaId() + ", jogo=" + dto.getJogoId()));
+
         Pontuacao pontuacao = new Pontuacao();
-
-        Integer jogoId = dto.getJogoId();
-        Jogo jogo = jogoRepository.findById(jogoId)
-                .orElseThrow(() -> new IllegalArgumentException("Jogo não encontrado: " + jogoId));
-
-        Integer salaId = dto.getSalaId();
-        Sala sala = salaRepository.findById(salaId)
-                .orElseThrow(() -> new IllegalArgumentException("Sala não encontrada: " + salaId));
-
-        pontuacao.setJogo(jogo);
-        pontuacao.setSala(sala);
+        pontuacao.setSalaJogo(salaJogo);
         pontuacao.setData(new Date());
         pontuacao.setAcertos(dto.getAcertos());
         pontuacao.setAluno(dto.getAluno());
