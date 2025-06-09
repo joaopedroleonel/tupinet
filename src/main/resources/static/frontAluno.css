@@ -546,3 +546,6 @@ body.final .numeros-painel {
     margin-bottom: 18px;
 }
 
+body {
+    font-family: 'MainFont';
+}

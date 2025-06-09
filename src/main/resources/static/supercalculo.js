@@ -313,10 +313,10 @@ function apresentarResumoFinal() {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    jogoId: parseInt(jogoId),
-                    salaId: salaId,
-                    aluno: nomeAluno,
-                    pontos: pontos,
+                    jogoId: sessionStorage.getItem('jogoId'),
+                    salaCod: sessionStorage.getItem('codigoSala'),
+                    aluno: sessionStorage.getItem('nomeAluno'),
+                    pontos: pontuacao,
                     acertos: acertos
                 })
             });

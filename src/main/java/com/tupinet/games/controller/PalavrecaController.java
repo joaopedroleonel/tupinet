@@ -25,7 +25,7 @@ public class PalavrecaController {
     private Palavreca palavraAtual;
 
     private final Integer JOGO_ID = 1; // defina o ID do jogo "Palavreca" quando ele é escolhido na criação da sala
-    private final Integer SALA_ID = 1; // defina o ID da sala
+    private final String SALA_COD = "PORT123"; // defina o ID da sala
     private final String ALUNO = "Luan"; // aqui poderá buscar da sala futuramente
 
     @GetMapping("/palavreca")
@@ -85,7 +85,7 @@ public class PalavrecaController {
             // salva a pontuação final no banco no final do jogo
             PontuacaoDTO dto = new PontuacaoDTO(
                     JOGO_ID,
-                    SALA_ID,
+                    SALA_COD,
                     ALUNO,
                     score,
                     acertos

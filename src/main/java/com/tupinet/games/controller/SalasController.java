@@ -35,6 +35,11 @@ public class SalasController {
         return "novaSala";
     }
 
+    @GetMapping("/ver/{cod}")
+    public String verSala(@PathVariable String cod){
+        return "verSala";
+    }
+
     @PostMapping("/excluir/{id}")
     public String excluirSala(@PathVariable Integer id) {
         salaService.excluirSala(id);
