@@ -15,12 +15,8 @@ public class Pontuacao {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "jogo_id", nullable = false)
-    private Jogo jogo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sala_id", nullable = false)
-    private Sala sala;
+    @JoinColumn(name = "sala_jogo_id", nullable = false)
+    private SalaJogo salaJogo;
 
     @Column(name = "aluno", length = 100, nullable = false)
     private String aluno;
@@ -43,20 +39,12 @@ public class Pontuacao {
         this.id = id;
     }
 
-    public Jogo getJogo() {
-        return jogo;
+    public SalaJogo getSalaJogo() {
+        return salaJogo;
     }
 
-    public void setJogo(Jogo jogo) {
-        this.jogo = jogo;
-    }
-
-    public Sala getSala() {
-        return sala;
-    }
-
-    public void setSala(Sala sala) {
-        this.sala = sala;
+    public void setSalaJogo(SalaJogo salaJogo) {
+        this.salaJogo = salaJogo;
     }
 
     public String getAluno() {

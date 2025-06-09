@@ -1,6 +1,7 @@
 package com.tupinet.games.service;
 
 import com.tupinet.games.model.Sala;
+import com.tupinet.games.model.SalaJogo;
 import com.tupinet.games.model.Jogo;
 import com.tupinet.games.repository.SalaRepository;
 import com.tupinet.games.repository.JogoRepository;
@@ -8,7 +9,10 @@ import com.tupinet.games.DTO.SalaSolicitacaoDTO;
 import com.tupinet.games.DTO.SalaRespostaDTO;
 import com.tupinet.games.util.CodigoGerador;
 import org.springframework.stereotype.Service;
-import java.util.*;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,50 +28,55 @@ public class SalaService {
     public SalaRespostaDTO criarSala(SalaSolicitacaoDTO dto) {
         Sala sala = new Sala();
         sala.setNome(dto.getNome());
-
-        if (dto.getAtivo() == null) {
-            sala.setAtivo(true); // Valor padrão: ativa na criação
-        } else {
-            sala.setAtivo(dto.getAtivo());
-        }
-
+        sala.setAtivo(dto.getAtivo() == null ? true : dto.getAtivo());
         sala.setCodigo(gerarCodigoUnico());
 
-        Set<Jogo> jogos = new HashSet<>(jogoRepository.findAllById(dto.getJogosIds()));
-        sala.setJogos(jogos);
+        Set<SalaJogo> salaJogos = new HashSet<>();
+        for (Integer jogoId : dto.getJogosIds()) {
+            Jogo jogo = jogoRepository.findById(jogoId)
+                    .orElseThrow(() -> new RuntimeException("Jogo não encontrado: " + jogoId));
+            SalaJogo sj = new SalaJogo();
+            sj.setSala(sala);
+            sj.setJogo(jogo);
+            salaJogos.add(sj);
+        }
+        sala.setSalaJogos(salaJogos);
 
-        sala = salaRepository.save(sala);
-        return toRespostaDTO(sala);
+        Sala saved = salaRepository.save(sala);
+        return toRespostaDTO(saved);
     }
 
     public SalaRespostaDTO editarSala(Integer id, SalaSolicitacaoDTO dto) {
-        Sala sala = salaRepository.findById(id).orElseThrow(() -> new RuntimeException("Sala não encontrada"));
+        Sala sala = salaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sala não encontrada: " + id));
         sala.setNome(dto.getNome());
+        sala.setAtivo(dto.getAtivo() == null ? true : dto.getAtivo());
 
-        if (dto.getAtivo() == null) {
-            sala.setAtivo(true);
-        } else {
-            sala.setAtivo(dto.getAtivo());
+        sala.getSalaJogos().clear();
+        for (Integer jogoId : dto.getJogosIds()) {
+            Jogo jogo = jogoRepository.findById(jogoId)
+                    .orElseThrow(() -> new RuntimeException("Jogo não encontrado: " + jogoId));
+            SalaJogo sj = new SalaJogo();
+            sj.setSala(sala);
+            sj.setJogo(jogo);
+            sala.getSalaJogos().add(sj);
         }
 
-        Set<Jogo> jogos = new HashSet<>(jogoRepository.findAllById(dto.getJogosIds()));
-        sala.setJogos(jogos);
-
-        sala = salaRepository.save(sala);
-        return toRespostaDTO(sala);
+        Sala updated = salaRepository.save(sala);
+        return toRespostaDTO(updated);
     }
 
     public SalaRespostaDTO buscarSala(Integer id) {
-        Sala sala = salaRepository.findById(id).orElseThrow(() -> new RuntimeException("Sala não encontrada"));
+        Sala sala = salaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sala não encontrada: " + id));
         return toRespostaDTO(sala);
     }
 
     public SalaRespostaDTO buscarSalaPorCodigo(String codigo) {
-        Sala sala = salaRepository.findWithJogosByCodigo(codigo)
-                .orElseThrow(() -> new RuntimeException("Sala não encontrada pelo código"));
+        Sala sala = salaRepository.findWithSalaJogosByCodigo(codigo)
+                .orElseThrow(() -> new RuntimeException("Sala não encontrada pelo código: " + codigo));
         return toRespostaDTO(sala);
     }
-
 
     public List<SalaRespostaDTO> listarSalas() {
         return salaRepository.findAll()
@@ -94,9 +103,10 @@ public class SalaService {
         dto.setNome(sala.getNome());
         dto.setCodigo(sala.getCodigo());
         dto.setAtivo(sala.getAtivo());
-        dto.setJogosIds(
-                sala.getJogos().stream().map(Jogo::getId).collect(Collectors.toSet())
-        );
+        Set<Integer> jogosIds = sala.getSalaJogos().stream()
+                .map(sj -> sj.getJogo().getId())
+                .collect(Collectors.toSet());
+        dto.setJogosIds(jogosIds);
         return dto;
     }
 }
