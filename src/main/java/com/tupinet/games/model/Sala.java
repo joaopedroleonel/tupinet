@@ -26,16 +26,8 @@ public class Sala {
     @ManyToMany(mappedBy = "salas")
     private Set<Professor> professores = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "sala_jogo",
-            joinColumns = @JoinColumn(name = "sala_id"),
-            inverseJoinColumns = @JoinColumn(name = "jogo_id")
-    )
-    private Set<Jogo> jogos = new HashSet<>();
-
     @OneToMany(mappedBy = "sala", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Pontuacao> pontuacoes = new HashSet<>();
+    private Set<SalaJogo> salaJogos = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -77,19 +69,12 @@ public class Sala {
         this.professores = professores;
     }
 
-    public Set<Jogo> getJogos() {
-        return jogos;
+    public Set<SalaJogo> getSalaJogos() {
+        return salaJogos;
     }
 
-    public void setJogos(Set<Jogo> jogos) {
-        this.jogos = jogos;
+    public void setSalaJogos(Set<SalaJogo> salaJogos) {
+        this.salaJogos = salaJogos;
     }
 
-    public Set<Pontuacao> getPontuacoes() {
-        return pontuacoes;
-    }
-
-    public void setPontuacoes(Set<Pontuacao> pontuacoes) {
-        this.pontuacoes = pontuacoes;
-    }
 }
