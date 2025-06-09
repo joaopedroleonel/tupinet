@@ -21,7 +21,7 @@ public class Sala {
     private String codigo;
 
     @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
+    private Boolean ativo = true;
 
     @ManyToMany(mappedBy = "salas")
     private Set<Professor> professores = new HashSet<>();

@@ -54,4 +54,5 @@ public class Palavra {
     public void setJogos(Set<JogoPalavra> jogos) {
         this.jogos = jogos;
     }
+
 }

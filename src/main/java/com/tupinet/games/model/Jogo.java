@@ -33,6 +33,9 @@ public class Jogo {
     @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Pontuacao> pontuacoes = new HashSet<>();
 
+    @Column(name = "rota", length = 100, nullable = false)
+    private String rota;
+
     public Integer getId() {
         return id;
     }
@@ -88,4 +91,8 @@ public class Jogo {
     public void setPontuacoes(Set<Pontuacao> pontuacoes) {
         this.pontuacoes = pontuacoes;
     }
+
+    public String getRota() { return rota; }
+
+    public void setRota(String rota) { this.rota = rota; }
 }

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/frontAluno.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seleção de Jogos</title>
+</head>
+<body>
+<div class="container">
+    <img class="logo" src="/imagens/logo/logo.png" alt="">
+    <div class="title">
+        <h1 id="title1">
+            Código da sala: <span th:text="${codigoSala}"></span>
+        </h1>
+    </div>
+    <div class="login-container">
+        <p class="titulo">Selecione o Jogo:</p>
+        <div class="jogos-grid">
+            <div class="jogo-card"
+                 th:each="jogo : ${jogos}"
+                 th:attr="data-rota=${jogo.rota},data-id=${jogo.id}">
+                <img th:src="@{'/imagens/jogos/' + ${jogo.imagem}}" />
+            </div>
+        </div>
+        <div class="jogar-container">
+            <button class="jogar">Jogar</button>
+        </div>
+    </div>
+    <footer>
+        <img class="footer" src="/imagens/footer/footer.png" alt="">
+    </footer>
+</div>
+<img src="/imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img src="/imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img src="/imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+
+
+<script>
+    let rotaSelecionada = null;
+    let idJogoSelecionado = null;
+    const jogoCards = document.querySelectorAll('.jogo-card');
+    const botaoJogar = document.querySelector('.jogar');
+
+    jogoCards.forEach(card => {
+        card.addEventListener('click', () => {
+            jogoCards.forEach(c => c.classList.remove('selecionado'));
+            card.classList.add('selecionado');
+            rotaSelecionada = card.getAttribute('data-rota');
+            idJogoSelecionado = card.getAttribute('data-id');
+        });
+    });
+
+    botaoJogar.addEventListener('click', () => {
+        if (rotaSelecionada && idJogoSelecionado) {
+            let codigoSala = document.querySelector('#title1 span').innerText;
+            sessionStorage.setItem('jogoId', idJogoSelecionado);
+            window.location.href = rotaSelecionada + "?codigo=" + encodeURIComponent(codigoSala);
+        } else {
+            alert("Selecione um jogo para continuar.");
+        }
+    });
+</script>
+</body>
+</html>

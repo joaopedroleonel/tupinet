@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <link rel="stylesheet" href="jogoCacaPalavras.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TupiNet</title>
+</head>
+
+<body>
+
+<div class="container">
+    <img class="logo" src="imagens/logo/logo.png" alt="">
+
+    <div class="game-area">
+        <div class="score-panel">
+            <p>Tentativa: <span id="tentativas">1</span>/10</p>
+            <p>Pontuação:</p>
+            <p id="score">0</p>
+        </div>
+
+        <div class="board">
+            <div class="grid" id="word-search"></div>
+            <button class="submitButton">Enviar</button>
+        </div>
+
+        <div class="word-panel">
+            <p>Tempo: <span id="timer">300</span>s</p>
+            <p>Encontre:</p>
+            <p id="target-word">????</p>
+        </div>
+    </div>
+</div>
+<div id="toast-container"></div>
+<div id="game-over-screen" style="display: none;">
+    <div class="game-over-box">
+        <h2 id="game-over-message"></h2>
+        <p id="final-score"></p>
+        <button onclick="voltarParaInicio()">Voltar para a página principal</button>
+    </div>
+</div>
+<footer>
+    <img class="footer" src="imagens/footer/footer.png" alt="">
+</footer>
+
+</div>
+<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+<script src="jogoCacaPalavras.js"></script>
+</body>
+
+</html>

@@ -1,10 +1,76 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+    border: 0;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
 body {
-    margin: 0; 
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body {
+    margin: 0;
     border: none;
     overflow: hidden;
     background: linear-gradient(to bottom right, rgb(135, 206, 250), rgb(84,172,244) 60%);
     font-weight: 400 !important;
 }
+
+h1 {
+    font-size: 2rem;
+}
+
 .cloud {
     position: absolute;
     width: 148px;
@@ -19,13 +85,13 @@ body {
 
 #cloud2 {
     top: 25vh;
-    left: -300px; 
+    left: -300px;
     animation: moveCloud2 80s linear infinite, floatCloud 10s ease-in-out infinite;
     animation-delay: 10s;
 }
 #cloud3 {
     top: 40vh;
-    left: -300px; 
+    left: -300px;
     animation: moveCloud3 50s linear infinite, floatCloud 10s ease-in-out infinite;
     animation-delay: 0s;
 }
@@ -73,15 +139,19 @@ body {
     flex-direction: column;
     align-items: center;
     height: 100vh;
-    gap: 20px !important;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    min-height: 100vh;
 }
-
 
 .logo {
     width: 200px;
+    margin-bottom: 30px;
 }
+
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
     height: auto;
@@ -103,7 +173,7 @@ footer {
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    font-family: 'MainFont';]
+    font-family: 'MainFont';
     margin-bottom: 5%;
 }
 #title1, #title2{
@@ -140,4 +210,573 @@ footer {
 
 .choiceButton:hover {
     background-color: rgb(187, 187, 187);
+}
+
+/* CSS da página de login do professor */
+
+.voltarButton {
+
+    width: 150px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #8bc300;
+    color: white;
+    border: none;
+    font-family: 'MainFont';
+    font-size: 18px;
+    cursor: pointer;
+    margin: 40px;
+}
+
+.emailText{
+    width: 300px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 20px;
+    padding-left: 15px;
+    font-family: 'MainFont';
+    font-size: 16px;
+
+}
+
+.senhaText{
+    width: 300px;
+    height: 40px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 30px;
+    padding-left: 15px;
+    font-family: 'MainFont';
+    font-size: 16px;
+}
+
+.buttonConfirmar {
+    display: inline-block;
+    text-align: center;
+    background-color: #78c42b;
+    border-radius: 25px;
+    padding: 15px 120px;
+    color: white;
+    font-size: 1.4rem;
+    font-family: 'MainFont';
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.buttonConfirmar:hover {
+    background-color: #5fa01f;
+}
+
+/* CSS da Página de Gerenciamento de Salas */
+
+.painel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    font-family: 'MainFont';
+    color: white;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.header {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.salas-container {
+    width: 80%;
+    max-width: 800px;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    margin-top: 40px;
+
+}
+
+
+.salas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.salas-header h3 {
+    margin: 0;
+    font-size: 35px;
+    color: white;
+    text-shadow:
+            -2px -2px 0 black,
+            2px -2px 0 black,
+            -2px  2px 0 black,
+            2px  2px 0 black;
+}
+
+.sala {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    color: black;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.sala span {
+    margin: 0 10px;
+}
+
+.sala a {
+    margin-left: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ver {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: blue;
+}
+
+.ver:hover{
+    transform: scale(1.1);
+}
+
+.excluir {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: red;
+}
+
+.excluir:hover{
+    transform: scale(1.1);
+
+}
+
+.adicionar-sala {
+    background-color: white;
+    border: none;
+    font-family: 'MainFont';
+    padding: 10px 20px;
+    font-size: 30px;
+    cursor: pointer;
+    color: black;
+}
+
+.adicionar-sala:hover {
+    background-color: #e0e0e0;
+}
+
+/* css adicionar sala */
+
+.titulo {
+    font-size: 32px;
+    color: white;
+    margin-top: 10px;
+    text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+    font-family: 'MainFont';
+}
+
+.formulario {
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 30px auto;
+    padding: 20px;
+    width: 90%;
+    max-width: 650px;
+    color: white;
+    font-family: 'MainFont';
+}
+
+.formulario h2 {
+    font-size: 35px;
+    margin-bottom: 20px;
+    text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+}
+
+.formulario label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px 10px;
+    font-size: 30px;
+    margin-left: 25px;
+}
+
+.formulario input {
+    width: 90%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+
+
+.jogos {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.jogo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.jogo-item img {
+    width: 100px; /* Ajustar conforme necessário */
+    margin-bottom: 5px;
+}
+
+.jogo-item label {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.hidden-checkbox {
+    display: none;
+}
+
+.image-label {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s, border 0.2s;
+}
+
+.image-label img {
+    width: 100px; /* Ajustar conforme necessário */
+    border: 3px solid transparent;
+    border-radius: 10px;
+    transition: transform 0.2s, border 0.2s;
+}
+
+.hidden-checkbox:checked + .image-label img {
+    transform: scale(1.1);
+    border: 3px solid #00cc00; /* Cor de seleção */
+}
+
+.jogo {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: transform 0.2s, border 0.2s;
+}
+
+.jogo:hover {
+    transform: scale(1.1);
+    border: 3px solid #fff;
+}
+
+.confirmar {
+    background-color: #88cc00;
+    color: white;
+    font-size: 18px;
+    border: none;
+    padding: 10px 200px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Press Start 2P', sans-serif;
+}
+
+/* css ver sala */
+
+.ranking-title {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-shadow:
+            -2px -2px 0 black,
+            2px -2px 0 black,
+            -2px  2px 0 black,
+            2px  2px 0 black;
+}
+
+.ranking-container {
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: black;
+    font-size: 20px;
+    min-width: 500px;
+}
+
+.ranking-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border: 3px solid #eee;
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+
+.ranking-row:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.ranking-row span {
+    flex: 1;
+    text-align: center;
+}
+
+.porcentagem {
+    color: red;
+    font-weight: bold;
+}
+
+.pontuacao {
+    color: goldenrod;
+    font-weight: bold;
+}
+
+@keyframes float {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(150vw); }
+}
+
+/* css excluir sala */
+
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* Escondido por padrão */
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* Conteúdo do modal */
+.modal-conteudo {
+    background-color: #f5fefe;
+    border: 3px solid red;
+    border-radius: 20px;
+    padding: 30px 40px;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+    box-shadow: 4px 4px 0px black;
+    color: #444;
+}
+
+.botoes-excluir {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.cancelar-btn,
+.excluir-btn {
+    padding: 10px 20px;
+    font-size: 12px;
+    font-family: 'Press Start 2P', cursive;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 2px 2px 0px black;
+}
+
+.cancelar-btn {
+    background-color: #ddd;
+    color: #222;
+}
+
+.excluir-btn {
+    background-color: #fff0f0;
+    color: red;
+}
+
+
+/* css Palavreca */
+
+/* Tela centralizada */
+.tela-palavra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Título */
+.titulo-jogo {
+    font-size: 34px;
+    color: white;
+    text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+    margin-bottom: 10px;
+    font-family: 'MainFont';
+}
+
+/* Texto de rodada e score */
+.status-jogo {
+    color: white;
+    font-size: 25px;
+    text-shadow: 2px 2px 0px black;
+    margin-bottom: 20px;
+    font-family: 'MainFont';
+}
+
+/* Caixa branca */
+.box-completar {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px 150px;
+    box-shadow: 4px 4px 0px black;
+    text-align: center;
+    border: 2px solid #d0e0e0;
+}
+
+/* Palavra com lacunas */
+.palavra {
+    font-size: 30px;
+    color: #333;
+    font-family: 'MainFont';
+}
+
+.palavra input {
+    font-family: 'MainFont';
+}
+
+/* Inputs sublinhados */
+.input-sublinhado {
+    border: none;
+    border-bottom: 2px solid black;
+    background: transparent;
+    font-size: 30px;
+    width: 24px;
+    text-align: center;
+    font-family: 'MainFont';
+    color: black;
+    margin: 0 4px;
+    padding: 0;
+}
+
+.input-sublinhado:focus {
+    outline: none;
+    border-bottom: 2px solid #4CAF50;
+}
+
+/* Botão */
+.botao-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.botao-enviar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 20px;
+    font-size: 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px black;
+    font-family: 'MainFont';
+}
+
+.botao-enviar:hover {
+    background-color: #45a049;
+}
+
+/* Mensagem de acerto/erro */
+.mensagem {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    color: white;
+    text-shadow: 2px 2px 0px black;
+    margin-top: 15px;
+    font-family: 'MainFont';
+    margin-top: 50px;
+    text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+}
+
+.traducao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'MainFont';
+    color: white;
+}
+
+.traducao-tupi {
+    font-family: 'MainFont';
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+.traducao-title {
+    font-size: 3rem !important;
+    color: #521202;
+}
+
+.traducao p {
+    font-size: 1.5rem;
+}
+
+.buttonMicrofone {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #78c42b;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    color: white;
+    font-size: 1.4rem;
+    font-family: 'MainFont';
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.buttonMicrofone:disabled {
+    background-color: #78c42b99 !important;
+}
+
+.loader {
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #78c42b;
+    width: 80px;
+    height: 80px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.flex-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }

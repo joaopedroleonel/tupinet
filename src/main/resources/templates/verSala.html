@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ranking - TupiNet</title>
+  <link rel="stylesheet" href="verSalas.css">
+</head>
+<body>
+
+<div class="painel-container">
+  <img class="logo" src="imagens/logo/logo.png" alt="Logo TupiNet">
+
+  <div class="salas-container">
+    <div class="salas-header">
+      <h3>Ranking - Sala X</h3>
+      <a href="gerenciamento-salas" class="voltar-btn">Voltar</a>
+    </div>
+
+
+    <div class="ranking-container">
+      <!-- Ranking fixo (você pode deixar dinâmico depois) -->
+      <div class="ranking-row">
+        <span>Amanda Bittencourt</span>
+        <span>Jogo 2</span>
+        <span class="porcentagem">100%</span>
+        <span class="pontuacao">1350</span>
+      </div>
+      <div class="ranking-row">
+        <span>Ana Luiza Cruz</span>
+        <span>Jogo 2</span>
+        <span class="porcentagem">100%</span>
+        <span class="pontuacao">1300</span>
+      </div>
+      <div class="ranking-row">
+        <span>Renato Portaluppi</span>
+        <span>Jogo 2</span>
+        <span class="porcentagem">100%</span>
+        <span class="pontuacao">1280</span>
+      </div>
+      <div class="ranking-row">
+        <span>Cristiano Ronaldo</span>
+        <span>Jogo 2</span>
+        <span class="porcentagem">100%</span>
+        <span class="pontuacao">1270</span>
+      </div>
+      <div class="ranking-row">
+        <span>Lionel Messi</span>
+        <span>Jogo 2</span>
+        <span class="porcentagem">80%</span>
+        <span class="pontuacao">1120</span>
+      </div>
+      <div class="ranking-row">
+        <span>Emanuelle Curry</span>
+        <span>Jogo 2</span>
+        <span class="porcentagem">80%</span>
+        <span class="pontuacao">1100</span>
+      </div>
+      <div class="ranking-row">
+        <span>Jessica Jesus Cris</span>
+        <span>Jogo 2</span>
+        <span class="porcentagem">70%</span>
+        <span class="pontuacao">1090</span>
+      </div>
+      <div class="ranking-row">
+        <span>Luiz Antonio Pereira</span>
+        <span>Jogo 2</span>
+        <span class="porcentagem">70%</span>
+        <span class="pontuacao">1080</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Nuvens -->
+<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+
+<!-- Rodapé -->
+<footer>
+  <img class="footer" src="imagens/footer/footer.png" alt="Rodapé TupiNet">
+</footer>
+
+<script>
+  // Função para pegar parâmetros da URL
+  function getParametro(nome) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(nome);
+  }
+
+  const sala = getParametro('sala') || 'Sala Desconhecida';
+  const codigo = getParametro('codigo') || '';
+
+  // Altera o título da página
+  document.title = 'Ranking - ' + sala;
+
+  // Altera o header da sala
+  const header = document.querySelector('.salas-header h3');
+  if (header) {
+    header.textContent = 'Ranking - ' + sala + (codigo ? ' (' + codigo + ')' : '');
+  }
+</script>
+
+</body>
+</html>

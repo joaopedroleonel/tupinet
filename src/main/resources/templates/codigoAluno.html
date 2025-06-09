@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="stylesheet" href="/frontAluno.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entrar na Sala</title>
+</head>
+<body>
+<div class="container">
+    <img class="logo" src="imagens/logo/logo.png" alt="">
+    <div class="title">
+        <h1 id="title1">Entrar na Sala</h1>
+    </div>
+    <div class="login-container">
+        <label for="codigo">Tembiaporã / Código</label>
+        <input type="text" id="codigo" placeholder="Erepy'a kuéra oca rupi / Digite o código da sala" />
+        <label for="nome">Terá / Nome</label>
+        <input type="text" id="nome" placeholder="Eiké nde téra? / Digite seu nome aqui" />
+        <button type="button" id="confirmarBtn">Confirmar</button>
+    </div>
+    <footer>
+        <img class="footer" src="imagens/footer/footer.png" alt="">
+    </footer>
+</div>
+<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+
+<script>
+    document.getElementById('confirmarBtn').addEventListener('click', function() {
+        const codigo = document.getElementById('codigo').value.trim();
+        const nome = document.getElementById('nome').value.trim();
+        if (codigo && nome) {
+            sessionStorage.setItem('nomeAluno', nome);
+            sessionStorage.setItem('codigoSala', codigo);
+            window.location.href = '/selecaoJogos?codigo=' + encodeURIComponent(codigo);
+        } else {
+            alert('Preencha o código da sala e seu nome para continuar!');
+        }
+    });
+</script>
+</body>
+</html>
