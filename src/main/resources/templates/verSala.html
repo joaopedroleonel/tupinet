@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ranking - TupiNet</title>
-  <link rel="stylesheet" href="verSalas.css">
+  <link rel="stylesheet" th:href="@{/verSalas.css}" href="verSalas.css">
 </head>
 <body>
 
 <div class="painel-container">
-  <img class="logo" src="imagens/logo/logo.png" alt="Logo TupiNet">
+  <img class="logo" th:src="@{/imagens/logo/logo.png}" src="imagens/logo/logo.png" alt="Logo TupiNet">
 
   <div class="salas-container">
     <div class="salas-header">
@@ -73,13 +73,13 @@
 </div>
 
 <!-- Nuvens -->
-<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
-<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
-<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+<img th:src="@{/imagens/nuvens/Nuvem1.png}" src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img th:src="@{/imagens/nuvens/Nuvem2.png}" src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img th:src="@{/imagens/nuvens/Nuvem3.png}" src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
 
 <!-- Rodapé -->
 <footer>
-  <img class="footer" src="imagens/footer/footer.png" alt="Rodapé TupiNet">
+  <img th:src="@{/imagens/footer/footer.png}" class="footer" src="imagens/footer/footer.png" alt="Rodapé TupiNet">
 </footer>
 
 <script>

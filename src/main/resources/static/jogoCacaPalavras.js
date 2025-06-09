@@ -51,9 +51,9 @@ function finalizarJogo() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            jogoId: 3,
-            salaId: localStorage.getItem("SalaId"),
-            aluno: localStorage.getItem("Aluno"),
+            jogoId: sessionStorage.getItem('jogoId'),
+            salaCod: sessionStorage.getItem('codigoSala'),
+            aluno: sessionStorage.getItem('nomeAluno'),
             pontos: pontuacao,
             acertos: acertos
         })

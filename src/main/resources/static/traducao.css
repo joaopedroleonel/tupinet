@@ -1,0 +1,28 @@
+.counters { margin-top: 1rem; display: flex; gap: 2rem; justify-content: center; }
+.notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+  z-index: 200;
+}
+.notification.show { opacity: 1; }
+.notification.certo { background-color: #28a745; }
+.notification.errado { background-color: #dc3545; }
+.botao-padrao {
+  color: white;
+  padding: 8px 20px;
+  font-size: 2rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'MainFont';
+  width: 100%;
+}
