@@ -22,31 +22,52 @@ public class PalavrecaController {
     @Autowired
     private PontuacaoService pontuacaoService;
 
-    private Palavreca palavraAtual;
-
-    private final Integer JOGO_ID = 1; // defina o ID do jogo "Palavreca" quando ele é escolhido na criação da sala
-    private final String SALA_COD = "PORT123"; // defina o ID da sala
-    private final String ALUNO = "Luan"; // aqui poderá buscar da sala futuramente
+    private final Integer JOGO_ID = 2;
+    private final String SALA_COD = "PORT123";
+    private final String ALUNO = "Luan";
 
     @GetMapping("/palavreca")
     public String exibirJogo(Model model, HttpSession session) {
         iniciarSessaoSeNecessario(session);
 
-        palavraAtual = palavraService.getPalavraAleatoria();
-        session.setAttribute("palavraAtual", palavraAtual);
+        // Verifica se é um novo jogo ou continuação
+        if (session.getAttribute("palavraAtual") == null) {
+            Palavreca novaPalavra = palavraService.getPalavraAleatoria();
+            session.setAttribute("palavraAtual", novaPalavra);
+        }
 
+        // Recupera dados da sessão
+        Palavreca palavraAtual = (Palavreca) session.getAttribute("palavraAtual");
+        Integer rodada = (Integer) session.getAttribute("rodada");
+        Integer score = (Integer) session.getAttribute("score");
+
+        // Adiciona atributos ao modelo
         model.addAttribute("lacuna", palavraAtual.getComLacunas());
         model.addAttribute("indices", palavraAtual.getIndicesFaltando());
-        model.addAttribute("rodada", session.getAttribute("rodada"));
-        model.addAttribute("score", session.getAttribute("score"));
+        model.addAttribute("rodada", rodada);
+        model.addAttribute("score", score);
         model.addAttribute("traducaoTupi", palavraAtual.getTraducaoTupi());
+
+        // Remove mensagem da sessão se existir
+        if (session.getAttribute("mensagem") != null) {
+            model.addAttribute("mensagem", session.getAttribute("mensagem"));
+            session.removeAttribute("mensagem");
+        }
+
         return "palavreca.html";
     }
 
     @PostMapping("/verificar")
-    public String verificarResposta(@RequestParam Map<String, String> params, Model model, HttpSession session) {
-        Palavreca palavraSessao = (Palavreca) session.getAttribute("palavraAtual");
+    public String verificarResposta(@RequestParam Map<String, String> params, HttpSession session) {
+        // Verifica se há palavra atual na sessão
+        if (session.getAttribute("palavraAtual") == null) {
+            return "redirect:/palavreca";
+        }
 
+        Palavreca palavraSessao = (Palavreca) session.getAttribute("palavraAtual");
+        session.removeAttribute("palavraAtual");
+
+        // Processa as respostas
         Map<Integer, Character> respostas = new HashMap<>();
         for (String key : params.keySet()) {
             if (key.startsWith("letra")) {
@@ -56,66 +77,67 @@ public class PalavrecaController {
             }
         }
 
+        // Valida resposta
         boolean acertou = palavraService.validarResposta(palavraSessao, respostas);
 
-        // atualiza score e rodada
-        int rodada = (int) session.getAttribute("rodada");
-        int score = (int) session.getAttribute("score");
-        int acertos = (int) session.getAttribute("acertos");
+        // Atualiza pontuação
+        Integer rodada = (Integer) session.getAttribute("rodada");
+        Integer score = (Integer) session.getAttribute("score");
+        Integer acertos = (Integer) session.getAttribute("acertos");
 
         if (acertou) {
             score += 10;
             acertos++;
-            model.addAttribute("mensagem", "✅ Parabéns! Você acertou!");
+            session.setAttribute("mensagem", "✅ Parabéns! Você acertou!");
         } else {
-            model.addAttribute("mensagem", "❌ Você errou!");
+            session.setAttribute("mensagem", "❌ Você errou!");
         }
 
         rodada++;
-
         session.setAttribute("rodada", rodada);
         session.setAttribute("score", score);
         session.setAttribute("acertos", acertos);
 
-        // verifica se acabou
+        // Verifica fim do jogo
         if (rodada > 10) {
-            model.addAttribute("acertos", acertos);
-            model.addAttribute("score", score);
-
-            // salva a pontuação final no banco no final do jogo
-            PontuacaoDTO dto = new PontuacaoDTO(
-                    JOGO_ID,
-                    SALA_COD,
-                    ALUNO,
-                    score,
-                    acertos
-            );
-            pontuacaoService.setPontuacao(dto);
-
-            return "palavrecaFinal.html";
+            return "redirect:/palavreca/final";
         }
 
-        // próxima palavra
-        palavraAtual = palavraService.getPalavraAleatoria();
-        session.setAttribute("palavraAtual", palavraAtual);
+        // Gera nova palavra para próxima rodada
+        Palavreca novaPalavra = palavraService.getPalavraAleatoria();
+        session.setAttribute("palavraAtual", novaPalavra);
 
-        model.addAttribute("lacuna", palavraAtual.getComLacunas());
-        model.addAttribute("indices", palavraAtual.getIndicesFaltando());
-        model.addAttribute("rodada", rodada);
-        model.addAttribute("score", score);
-        model.addAttribute("traducaoTupi", palavraAtual.getTraducaoTupi());
+        return "redirect:/palavreca";
+    }
 
-        return "palavreca.html";
+    @GetMapping("/palavreca/final")
+    public String exibirFinal(Model model, HttpSession session) {
+        model.addAttribute("acertos", session.getAttribute("acertos"));
+        model.addAttribute("score", session.getAttribute("score"));
+        // Salva pontuação no banco (descomente quando necessário)
+        /*
+        PontuacaoDTO dto = new PontuacaoDTO(
+                JOGO_ID,
+                SALA_COD,
+                ALUNO,
+                (Integer) session.getAttribute("score"),
+                (Integer) session.getAttribute("acertos")
+        );
+        pontuacaoService.setPontuacao(dto);
+        */
+
+        return "palavrecaFinal.html";
     }
 
     @GetMapping("/reiniciar")
     public String reiniciarJogo(HttpSession session) {
+        palavraService.resetPalavrasUsadas();
         session.invalidate();
         return "redirect:/palavreca";
     }
 
     private void iniciarSessaoSeNecessario(HttpSession session) {
-        if (session.getAttribute("rodada") == null) {
+        if (session.getAttribute("rodada") == null || (Integer) session.getAttribute("rodada") > 10) {
             session.setAttribute("rodada", 1);
             session.setAttribute("score", 0);
             session.setAttribute("acertos", 0);

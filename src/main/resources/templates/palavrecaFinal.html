@@ -4,34 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Palavreca - Fim de Jogo</title>
-  <link rel="stylesheet" href="palavreca.css">
+  <link rel="stylesheet" href="/palavreca.css">
 </head>
 <body>
 
-<div class="tela-palavra">
-  <img src="imagens/logo/logo.png" alt="Logo TupiNet" class="logo">
+<div class="tela-final">
+  <img src="/imagens/logo/logo.png" alt="Logo TupiNet" class="logo">
 
-  <h2 class="titulo-jogo">🏆 Palavreca - Fim de Jogo!</h2>
+  <h2 class="titulo-final">🏆 Palavreca - Fim de Jogo!</h2>
 
-  <div class="box-completar">
-    <p style="font-size: 30px;font-family: 'MainFont';">✅ Acertos: <strong th:text="${acertos}"></strong> de 10</p>
-    <p style="font-size: 30px;font-family: 'MainFont';">⭐ Pontuação Total: <strong th:text="${score}"></strong> pontos</p>
-
-    <div class="botao-container">
-      <a href="/reiniciar">
-        <button class="botao-enviar">Jogar Novamente</button>
-      </a>
+  <div class="resultados-container">
+    <div class="resultado-item">
+      <span class="resultado-icone">✅</span>
+      <span class="resultado-texto">Acertos: <strong th:text="${acertos} + ' de 10'">0 de 10</strong></span>
     </div>
+
+    <div class="resultado-item">
+      <span class="resultado-icone">⭐</span>
+      <span class="resultado-texto">Pontuação Total: <strong th:text="${score} + ' pontos'">0 pontos</strong></span>
+    </div>
+  </div>
+
+  <input type="hidden" id="pontuacaoFinal" th:value="${score}" />
+  <input type="hidden" id="acertosFinal" th:value="${acertos}" />
+
+  <div class="botao-container">
+    <a href="/reiniciar" class="botao-reiniciar">
+      <button class="botao-enviar">Jogar Novamente</button>
+    </a>
   </div>
 </div>
 
-<img src="imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
-<img src="imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
-<img src="imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
+<img src="/imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
+<img src="/imagens/nuvens/Nuvem2.png" class="cloud" id="cloud2">
+<img src="/imagens/nuvens/Nuvem3.png" class="cloud" id="cloud3">
 
 <footer>
-  <img src="imagens/footer/footer.png" alt="Cenário" class="footer">
+  <img src="/imagens/footer/footer.png" alt="Cenário" class="footer">
 </footer>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const pontuacao = document.getElementById("pontuacaoFinal").value;
+    const acertos = document.getElementById("acertosFinal").value;
+
+    const jogoId = sessionStorage.getItem('jogoId');
+    const salaCod = sessionStorage.getItem('codigoSala');
+    const aluno = sessionStorage.getItem('nomeAluno');
+
+    fetch('/salvar-pontuacao', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        jogoId: jogoId,
+        salaCod: salaCod,
+        aluno: aluno,
+        pontos: pontuacao,
+        acertos: acertos
+      })
+    });
+  });
+</script>
 
 </body>
 </html>

@@ -18,70 +18,102 @@ public class PalavrecaService {
 
     private final Random random = new Random();
 
-    // conjunto para armazenar palavras já utilizadas
-    private Set<String> palavrasUsadas = new HashSet<>();
+    // Conjunto para armazenar palavras já utilizadas (agora é thread-safe)
+    private Set<String> palavrasUsadas = Collections.synchronizedSet(new HashSet<>());
 
     @Transactional
     public Palavreca getPalavraAleatoria() {
-        // obtém todas as palavras do jogo
+        // Obtém todas as palavras do jogo
         List<Palavra> palavras = jogoPalavraRepository.findPalavrasByJogoId(2);
 
+        // Verifica se ainda há palavras disponíveis
+        if (palavrasUsadas.size() >= palavras.size()) {
+            throw new IllegalStateException("Todas as palavras já foram utilizadas");
+        }
+
         Palavra palavra;
-        // sorteia uma palavra que ainda não foi usada
+        int tentativas = 0;
+        int maxTentativas = palavras.size() * 2; // Evita loop infinito
+
+        // Sorteia uma palavra que ainda não foi usada
         do {
             palavra = palavras.get(random.nextInt(palavras.size()));
+            tentativas++;
+
+            // Se após muitas tentativas não encontrar, limpa as usadas
+            if (tentativas > maxTentativas) {
+                resetPalavrasUsadas();
+                palavra = palavras.get(random.nextInt(palavras.size()));
+                break;
+            }
         } while (palavrasUsadas.contains(palavra.getTexto()));
 
         String textoPalavra = palavra.getTexto();
-
-        // marca a palavra como usada
         palavrasUsadas.add(textoPalavra);
 
+        // Cria a palavra com lacunas
+        return criarPalavraComLacunas(palavra, textoPalavra);
+    }
+
+    private Palavreca criarPalavraComLacunas(Palavra palavra, String textoPalavra) {
         int tamanho = textoPalavra.length();
+        int letrasParaOcultar = calcularLetrasParaOcultar(tamanho);
+        Set<Integer> indices = selecionarIndicesParaOcultar(textoPalavra, letrasParaOcultar);
 
-        // sorteia dois índices distintos para virar lacuna
-        // determina a quantidade de letras a ocultar
-        int letrasParaOcultar;
-        if (tamanho < 7) {
-            letrasParaOcultar = 2;
-        } else {
-            // entre 30% e 40% do tamanho, arredondado, no mínimo 2
-            letrasParaOcultar = Math.max(2, (int) Math.round(tamanho * (0.3 + random.nextDouble() * 0.1)));
-        }
-
-        // sorteia índices distintos para virar lacunas
-        Set<Integer> indices = new HashSet<>();
-        while (indices.size() < letrasParaOcultar) {
-            int idx = random.nextInt(tamanho);
-            if (Character.isLetter(textoPalavra.charAt(idx))) {
-                indices.add(idx);
-            }
-        }
-
-
-        // cria a versão com lacunas
+        // Cria a versão com lacunas
         StringBuilder lacunas = new StringBuilder(textoPalavra);
         for (int i : indices) {
             lacunas.setCharAt(i, '_');
         }
 
-        // obtém a tradução da palavra
+        // Obtém a tradução
         Optional<String> traducao = palavra.getTraducoes()
                 .stream()
                 .map(TraducaoPalavra::getTraducao)
                 .findFirst();
 
-        // retorna a palavra com lacunas
         return new Palavreca(textoPalavra, lacunas.toString(), indices, traducao.orElse("N/A"));
     }
 
+    private int calcularLetrasParaOcultar(int tamanhoPalavra) {
+        if (tamanhoPalavra < 7) {
+            return 2;
+        }
+        // Entre 30% e 40% do tamanho, arredondado, no mínimo 2
+        double percentual = 0.3 + random.nextDouble() * 0.1;
+        return Math.max(2, (int) Math.round(tamanhoPalavra * percentual));
+    }
+
+    private Set<Integer> selecionarIndicesParaOcultar(String textoPalavra, int quantidade) {
+        Set<Integer> indices = new HashSet<>();
+        while (indices.size() < quantidade) {
+            int idx = random.nextInt(textoPalavra.length());
+            if (Character.isLetter(textoPalavra.charAt(idx))) {
+                indices.add(idx);
+            }
+        }
+        return indices;
+    }
+
     public boolean validarResposta(Palavreca palavra, Map<Integer, Character> respostas) {
+        if (palavra == null || respostas == null) {
+            return false;
+        }
+
         for (Map.Entry<Integer, Character> entrada : respostas.entrySet()) {
+            if (entrada.getKey() < 0 || entrada.getKey() >= palavra.getCompleta().length()) {
+                continue; // Índice inválido, ignora
+            }
+
             if (Character.toLowerCase(palavra.getCompleta().charAt(entrada.getKey())) !=
                     Character.toLowerCase(entrada.getValue())) {
                 return false;
             }
         }
         return true;
+    }
+
+    public void resetPalavrasUsadas() {
+        palavrasUsadas.clear();
     }
 }
