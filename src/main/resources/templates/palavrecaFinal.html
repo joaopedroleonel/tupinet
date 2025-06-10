@@ -24,9 +24,10 @@
       <span class="resultado-texto">Pontuação Total: <strong th:text="${score} + ' pontos'">0 pontos</strong></span>
     </div>
   </div>
-  <script>
-    salvarpontpalavreca();
-  </script>
+
+  <input type="hidden" id="pontuacaoFinal" th:value="${score}" />
+  <input type="hidden" id="acertosFinal" th:value="${acertos}" />
+
   <div class="botao-container">
     <a href="/reiniciar" class="botao-reiniciar">
       <button class="botao-enviar">Jogar Novamente</button>
@@ -43,9 +44,13 @@
 </footer>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const pontuacao = Number(<span th:text="${score}">0</span>);
-    const acertos = Number(<span th:text="${acertos}">0</span>);
+  window.addEventListener("DOMContentLoaded", () => {
+    const pontuacao = document.getElementById("pontuacaoFinal").value;
+    const acertos = document.getElementById("acertosFinal").value;
+
+    const jogoId = sessionStorage.getItem('jogoId');
+    const salaCod = sessionStorage.getItem('codigoSala');
+    const aluno = sessionStorage.getItem('nomeAluno');
 
     fetch('/salvar-pontuacao', {
       method: 'PUT',
@@ -53,14 +58,14 @@
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        jogoId: sessionStorage.getItem('jogoId'),
-        salaCod: sessionStorage.getItem('codigoSala'),
-        aluno: sessionStorage.getItem('nomeAluno'),
+        jogoId: jogoId,
+        salaCod: salaCod,
+        aluno: aluno,
         pontos: pontuacao,
         acertos: acertos
       })
     });
-  };
+  });
 </script>
 
 </body>
