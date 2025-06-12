@@ -45,7 +45,7 @@
         <div th:each="sala : ${salas}" class="sala">
           <span th:text="${sala.nome}">Nome da Sala</span>
           <span th:text="${sala.codigo}">CODIGO</span>
-          <a th:href="@{'/salas/editar/' + ${sala.id}}" class="ver">VER</a>
+          <a th:href="@{'/salas/ver/' + ${sala.id}}" class="ver">VER</a>
           <a href="javascript:void(0);"
              th:attr="onclick=|abrirModal('${sala.nome}', ${sala.id})|"
              class="excluir">EXCLUIR</a>

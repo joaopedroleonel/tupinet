@@ -1,13 +1,18 @@
 package com.tupinet.games.controller;
 
+import com.tupinet.games.DTO.PontuacaoDTO;
+import com.tupinet.games.DTO.RankingDTO;
 import com.tupinet.games.DTO.SalaSolicitacaoDTO;
 import com.tupinet.games.DTO.SalaRespostaDTO;
+import com.tupinet.games.service.PontuacaoService;
 import com.tupinet.games.service.SalaService;
 import com.tupinet.games.repository.JogoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -35,8 +40,8 @@ public class SalasController {
         return "novaSala";
     }
 
-    @GetMapping("/ver/{cod}")
-    public String verSala(@PathVariable String cod){
+    @GetMapping("/ver/{id}")
+    public String verSala(@PathVariable Integer id){
         return "verSala";
     }
 
@@ -50,5 +55,17 @@ public class SalasController {
     public String criarSala(@ModelAttribute("sala") SalaSolicitacaoDTO dto) {
         salaService.criarSala(dto);
         return "redirect:/salas";
+    }
+    @Autowired
+    private PontuacaoService pontuacaoService;
+
+    @GetMapping("ver-sala/{salaId}")
+    public String exibirRanking(@PathVariable Long salaId, Model model) {
+        List<RankingDTO> rankingList = pontuacaoService.findPontuacaoBySalaId(salaId);
+
+        rankingList.sort(Comparator.comparing(RankingDTO::getPontos).reversed());
+
+        model.addAttribute("rankingList", rankingList);
+        return "verSala";
     }
 }
