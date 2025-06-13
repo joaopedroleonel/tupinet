@@ -1,6 +1,7 @@
 package com.tupinet.games.service;
 
 import com.tupinet.games.DTO.PontuacaoDTO;
+import com.tupinet.games.DTO.RankingDTO;
 import com.tupinet.games.model.Pontuacao;
 import com.tupinet.games.model.Sala;
 import com.tupinet.games.model.SalaJogo;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +21,10 @@ public class PontuacaoService {
 
     @Autowired
     private PontuacaoRepository pontuacaoRepository;
+
+    public List<RankingDTO> findPontuacaoBySalaId(Long Id){
+        return pontuacaoRepository.findPontuacaoBySalaId(Id);
+    }
 
     @Autowired
     private SalaJogoRepository salaJogoRepository;

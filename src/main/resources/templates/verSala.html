@@ -7,67 +7,14 @@
   <link rel="stylesheet" th:href="@{/verSalas.css}" href="verSalas.css">
 </head>
 <body>
-
 <div class="painel-container">
-  <img class="logo" th:src="@{/imagens/logo/logo.png}" src="imagens/logo/logo.png" alt="Logo TupiNet">
-
-  <div class="salas-container">
-    <div class="salas-header">
-      <h3>Ranking - Sala X</h3>
-      <a href="gerenciamento-salas" class="voltar-btn">Voltar</a>
-    </div>
-
-
-    <div class="ranking-container">
-      <!-- Ranking fixo (você pode deixar dinâmico depois) -->
-      <div class="ranking-row">
-        <span>Amanda Bittencourt</span>
-        <span>Jogo 2</span>
-        <span class="porcentagem">100%</span>
-        <span class="pontuacao">1350</span>
-      </div>
-      <div class="ranking-row">
-        <span>Ana Luiza Cruz</span>
-        <span>Jogo 2</span>
-        <span class="porcentagem">100%</span>
-        <span class="pontuacao">1300</span>
-      </div>
-      <div class="ranking-row">
-        <span>Renato Portaluppi</span>
-        <span>Jogo 2</span>
-        <span class="porcentagem">100%</span>
-        <span class="pontuacao">1280</span>
-      </div>
-      <div class="ranking-row">
-        <span>Cristiano Ronaldo</span>
-        <span>Jogo 2</span>
-        <span class="porcentagem">100%</span>
-        <span class="pontuacao">1270</span>
-      </div>
-      <div class="ranking-row">
-        <span>Lionel Messi</span>
-        <span>Jogo 2</span>
-        <span class="porcentagem">80%</span>
-        <span class="pontuacao">1120</span>
-      </div>
-      <div class="ranking-row">
-        <span>Emanuelle Curry</span>
-        <span>Jogo 2</span>
-        <span class="porcentagem">80%</span>
-        <span class="pontuacao">1100</span>
-      </div>
-      <div class="ranking-row">
-        <span>Jessica Jesus Cris</span>
-        <span>Jogo 2</span>
-        <span class="porcentagem">70%</span>
-        <span class="pontuacao">1090</span>
-      </div>
-      <div class="ranking-row">
-        <span>Luiz Antonio Pereira</span>
-        <span>Jogo 2</span>
-        <span class="porcentagem">70%</span>
-        <span class="pontuacao">1080</span>
-      </div>
+  <h1 class="title-ranking">Ranking!</h1>
+  <div class="board">
+    <div class="ranking-row" th:each="aluno, iterStat : ${rankingList}">
+      <span th:text="${iterStat.count} + 'º'"></span>
+      <span th:text="${aluno.aluno}">Nome</span>
+      <span th:text="${aluno.nome}">Jogo</span>
+      <span th:text="${aluno.pontos} + ' pts'" class="pontuacao">Pontos</span>
     </div>
   </div>
 </div>

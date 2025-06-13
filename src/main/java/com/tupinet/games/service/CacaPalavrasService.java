@@ -20,7 +20,6 @@ public class CacaPalavrasService {
         PosicaoPalavraDTO palavra = palavras.get(new Random().nextInt(palavras.size()));
 
         return palavra;
-
     }
 
 }
