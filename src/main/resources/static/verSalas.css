@@ -8,7 +8,7 @@ dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
+figure, figcaption, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
     margin: 0;
@@ -18,7 +18,6 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
 }
-
 a {
     text-decoration: none;
     color: inherit;
@@ -155,7 +154,7 @@ footer {
     bottom: 0;
     width: 100%;
     height: auto;
-    z-index: -1;
+    z-index: 3;
 }
 
 .footer {
@@ -187,43 +186,15 @@ footer {
     font-weight: 400 !important;
 }
 
-.choices{
-    margin-bottom: 7%;
-}
-
-.choiceButton {
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 40px;
-    border-radius: 20px;
-    background-color: white;
-    text-decoration: none;
-    font-family: 'MainFont';
-    font-size: 150%;
-    margin-bottom: 2%;
-    transition: background-color 0.2s;
-    cursor: pointer;
-}
-
-.choiceButton:hover {
-    background-color: rgb(187, 187, 187);
-}
-
-
-/* css ver sala */
-
-.ranking-title {
+.title-ranking {
     color: white;
-    font-size: 24px;
     margin-bottom: 20px;
     text-shadow:
             -2px -2px 0 black,
             2px -2px 0 black,
             -2px  2px 0 black,
             2px  2px 0 black;
+    font-size: 50px;
 }
 
 .ranking-container {
@@ -232,6 +203,9 @@ footer {
     color: black;
     font-size: 20px;
     min-width: 500px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .ranking-row {
@@ -243,6 +217,7 @@ footer {
     padding: 12px 20px;
     margin-bottom: 10px;
     font-size: 25px;
+    color: black;
 }
 
 .ranking-row:nth-child(odd) {
@@ -296,7 +271,6 @@ footer {
     min-height: 100vh;
     font-family: 'MainFont';
     color: white;
-    margin-top: 20px;
     justify-content: center;
 }
 
@@ -330,4 +304,46 @@ footer {
             2px -2px 0 black,
             -2px  2px 0 black,
             2px  2px 0 black;
+}
+
+
+.board {
+    width: 55vw;
+    height: 40vw;
+    max-height: 70vh;
+    background-color: rgba(158, 213, 255, 0.37);
+    display: flex;
+    flex-direction: column;
+    border-radius: 3%;
+
+    overflow-y: auto;
+    padding-right: 10px;
+    box-sizing: border-box;
+}
+.position-rank {
+    background-color: darkgoldenrod;
+    width: 90%;
+    min-height: 80px;
+    margin-top: 20px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+.board::-webkit-scrollbar {
+    width: 10px;
+    margin-left: 5px;
+}
+
+.board::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+.board::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    margin-left: 5px;
 }

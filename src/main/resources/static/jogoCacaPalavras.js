@@ -54,8 +54,8 @@ function finalizarJogo() {
             jogoId: sessionStorage.getItem('jogoId'),
             salaCod: sessionStorage.getItem('codigoSala'),
             aluno: sessionStorage.getItem('nomeAluno'),
-            pontos: pontuacao,
-            acertos: acertos
+            pontos: score,
+            acertos: score/10
         })
     });
 }
