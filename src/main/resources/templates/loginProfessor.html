@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,10 +14,11 @@
         <h1 id="title1">Login</h1>
     </div>
 
-    <form class="login">
-        <input type="email" placeholder="Digite o seu Email" class="emailText">
-        <input type="password" placeholder="Digite a sua Senha" class="senhaText">
-        <a href="/salas" class="buttonConfirmar">Confirmar</a>
+    <form class="login" th:action="@{/login}" method="post">
+        <input type="text" name="username" placeholder="Digite o seu Email" class="emailText">
+        <input type="password" name="password" placeholder="Digite a sua Senha" class="senhaText">
+        <button type="submit" class="buttonConfirmar">Confirmar</button>
+        <p th:if="${param.error}">E-mail ou senha inválidos</p>
     </form>
 
 </div>
