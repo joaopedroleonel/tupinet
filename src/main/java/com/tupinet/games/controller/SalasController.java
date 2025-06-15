@@ -40,11 +40,6 @@ public class SalasController {
         return "novaSala";
     }
 
-    @GetMapping("/ver/{id}")
-    public String verSala(@PathVariable Integer id){
-        return "verSala";
-    }
-
     @PostMapping("/excluir/{id}")
     public String excluirSala(@PathVariable Integer id) {
         salaService.excluirSala(id);
@@ -56,10 +51,11 @@ public class SalasController {
         salaService.criarSala(dto);
         return "redirect:/salas";
     }
+
     @Autowired
     private PontuacaoService pontuacaoService;
 
-    @GetMapping("ver-sala/{salaId}")
+    @GetMapping("ver/{salaId}")
     public String exibirRanking(@PathVariable Long salaId, Model model) {
         List<RankingDTO> rankingList = pontuacaoService.findPontuacaoBySalaId(salaId);
 
