@@ -24,12 +24,15 @@ public class SelecaoJogosController {
 
     @GetMapping("/selecaoJogos")
     public String selecaoJogosAluno(@RequestParam("codigo") String codigo, Model model) {
-
-        SalaRespostaDTO sala = salaService.buscarSalaPorCodigo(codigo);
-        Set<Integer> jogosIds = sala.getJogosIds();
-        List<Jogo> jogosDaSala = jogoRepository.findAllById(jogosIds);
-        model.addAttribute("codigoSala", codigo);
-        model.addAttribute("jogos", jogosDaSala);
-        return "homeAlunoSelJogos";
+        try {
+            SalaRespostaDTO sala = salaService.buscarSalaPorCodigo(codigo);
+            Set<Integer> jogosIds = sala.getJogosIds();
+            List<Jogo> jogosDaSala = jogoRepository.findAllById(jogosIds);
+            model.addAttribute("codigoSala", codigo);
+            model.addAttribute("jogos", jogosDaSala);
+            return "homeAlunoSelJogos";
+        } catch (RuntimeException ex) {
+            return "redirect:/codAluno?error=true";
+        }
     }
 }

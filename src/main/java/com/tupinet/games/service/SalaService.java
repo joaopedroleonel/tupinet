@@ -1,5 +1,7 @@
 package com.tupinet.games.service;
 
+import com.tupinet.games.DTO.SalaApiDTO;
+import com.tupinet.games.model.Professor;
 import com.tupinet.games.model.Sala;
 import com.tupinet.games.model.SalaJogo;
 import com.tupinet.games.model.Jogo;
@@ -8,6 +10,8 @@ import com.tupinet.games.repository.JogoRepository;
 import com.tupinet.games.DTO.SalaSolicitacaoDTO;
 import com.tupinet.games.DTO.SalaRespostaDTO;
 import com.tupinet.games.util.CodigoGerador;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -19,13 +23,18 @@ import java.util.stream.Collectors;
 public class SalaService {
     private final SalaRepository salaRepository;
     private final JogoRepository jogoRepository;
+    private final ProfessorService professorService;
 
-    public SalaService(SalaRepository salaRepository, JogoRepository jogoRepository) {
+    public SalaService(SalaRepository salaRepository, JogoRepository jogoRepository, ProfessorService professorService) {
         this.salaRepository = salaRepository;
         this.jogoRepository = jogoRepository;
+        this.professorService = professorService;
     }
 
+    @Transactional
     public SalaRespostaDTO criarSala(SalaSolicitacaoDTO dto) {
+        Professor professor = professorService.getProfessorLogado();
+
         Sala sala = new Sala();
         sala.setNome(dto.getNome());
         sala.setAtivo(dto.getAtivo() == null ? true : dto.getAtivo());
@@ -42,28 +51,11 @@ public class SalaService {
         }
         sala.setSalaJogos(salaJogos);
 
+        sala.getProfessores().add(professor);
+        professor.getSalas().add(sala);
+
         Sala saved = salaRepository.save(sala);
         return toRespostaDTO(saved);
-    }
-
-    public SalaRespostaDTO editarSala(Integer id, SalaSolicitacaoDTO dto) {
-        Sala sala = salaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sala não encontrada: " + id));
-        sala.setNome(dto.getNome());
-        sala.setAtivo(dto.getAtivo() == null ? true : dto.getAtivo());
-
-        sala.getSalaJogos().clear();
-        for (Integer jogoId : dto.getJogosIds()) {
-            Jogo jogo = jogoRepository.findById(jogoId)
-                    .orElseThrow(() -> new RuntimeException("Jogo não encontrado: " + jogoId));
-            SalaJogo sj = new SalaJogo();
-            sj.setSala(sala);
-            sj.setJogo(jogo);
-            sala.getSalaJogos().add(sj);
-        }
-
-        Sala updated = salaRepository.save(sala);
-        return toRespostaDTO(updated);
     }
 
     public SalaRespostaDTO buscarSala(Integer id) {
@@ -78,15 +70,28 @@ public class SalaService {
         return toRespostaDTO(sala);
     }
 
+    @Transactional
     public List<SalaRespostaDTO> listarSalas() {
-        return salaRepository.findAll()
+        Professor professor = professorService.getProfessorLogado();
+        return professor.getSalas()
                 .stream()
+                .filter(Sala::getAtivo)
                 .map(this::toRespostaDTO)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public void excluirSala(Integer id) {
-        salaRepository.deleteById(id);
+        Professor professor = professorService.getProfessorLogado();
+
+        Sala sala = salaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sala não encontrada"));
+
+        if (!sala.getProfessores().contains(professor)) {
+            throw new RuntimeException("Você não tem permissão para excluir esta sala.");
+        }
+
+        salaRepository.delete(sala);
     }
 
     private String gerarCodigoUnico() {
@@ -108,5 +113,43 @@ public class SalaService {
                 .collect(Collectors.toSet());
         dto.setJogosIds(jogosIds);
         return dto;
+    }
+
+    public List<SalaApiDTO> buscarSalasComJogos() {
+        List<Sala> salas = salaRepository.findAllComJogos();
+
+        return salas.stream().map(sala -> {
+            List<Jogo> jogos = sala.getSalaJogos()
+                    .stream()
+                    .map(SalaJogo::getJogo)
+                    .distinct()
+                    .toList();
+
+            return new SalaApiDTO(
+                    sala.getId(),
+                    sala.getNome(),
+                    sala.getCodigo(),
+                    sala.getAtivo(),
+                    jogos
+            );
+        }).toList();
+    }
+
+    public SalaApiDTO buscarSalaComJogos(Integer id) {
+        Sala sala = salaRepository.findByIdComJogos(id)
+                .orElseThrow(() -> new EntityNotFoundException("Sala não encontrada"));
+
+        List<Jogo> jogos = sala.getSalaJogos().stream()
+                .map(SalaJogo::getJogo)
+                .distinct()
+                .toList();
+
+        return new SalaApiDTO(
+                sala.getId(),
+                sala.getNome(),
+                sala.getCodigo(),
+                sala.getAtivo(),
+                jogos
+        );
     }
 }

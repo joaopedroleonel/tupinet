@@ -1,4 +1,5 @@
 package com.tupinet.games.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -17,9 +18,11 @@ public class Palavra {
     @Column(name = "texto", length = 100, nullable = false)
     private String texto;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "palavra", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<TraducaoPalavra> traducoes = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "palavra", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<JogoPalavra> jogos = new HashSet<>();
 

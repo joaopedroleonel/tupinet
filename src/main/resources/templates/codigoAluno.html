@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="/frontAluno.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -19,6 +19,7 @@
         <label for="nome">Terá / Nome</label>
         <input type="text" id="nome" placeholder="Eiké nde téra? / Digite seu nome aqui" />
         <button type="button" id="confirmarBtn">Confirmar</button>
+        <p th:if="${param.error}" style="margin-top: 10px; text-align: center; color: #b11e1e;">Código inválido.</p>
     </div>
     <footer>
         <img class="footer" src="imagens/footer/footer.png" alt="">

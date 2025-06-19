@@ -1,4 +1,5 @@
 package com.tupinet.games.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,13 +21,16 @@ public class Jogo {
     @Column(name = "imagem", length = 255)
     private String imagem;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipo_jogo_id", nullable = false)
     private TipoJogo tipoJogo;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<JogoPalavra> palavras = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "jogo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SalaJogo> salaJogos = new HashSet<>();
 

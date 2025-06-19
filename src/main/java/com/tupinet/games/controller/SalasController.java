@@ -56,7 +56,7 @@ public class SalasController {
     private PontuacaoService pontuacaoService;
 
     @GetMapping("ver/{salaId}")
-    public String exibirRanking(@PathVariable Long salaId, Model model) {
+    public String exibirRanking(@PathVariable Integer salaId, Model model) {
         List<RankingDTO> rankingList = pontuacaoService.findPontuacaoBySalaId(salaId);
 
         rankingList.sort(Comparator.comparing(RankingDTO::getPontos).reversed());

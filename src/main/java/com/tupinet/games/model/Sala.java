@@ -1,4 +1,5 @@
 package com.tupinet.games.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +24,7 @@ public class Sala {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo = true;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "salas")
     private Set<Professor> professores = new HashSet<>();
 
