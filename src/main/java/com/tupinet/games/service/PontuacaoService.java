@@ -3,6 +3,7 @@ package com.tupinet.games.service;
 import com.tupinet.games.DTO.PontuacaoDTO;
 import com.tupinet.games.DTO.RankingDTO;
 import com.tupinet.games.model.Pontuacao;
+import com.tupinet.games.model.Professor;
 import com.tupinet.games.model.Sala;
 import com.tupinet.games.model.SalaJogo;
 import com.tupinet.games.repository.PontuacaoRepository;
@@ -22,8 +23,20 @@ public class PontuacaoService {
     @Autowired
     private PontuacaoRepository pontuacaoRepository;
 
-    public List<RankingDTO> findPontuacaoBySalaId(Long Id){
-        return pontuacaoRepository.findPontuacaoBySalaId(Id);
+    @Autowired
+    private ProfessorService professorService;
+
+    @Transactional
+    public List<RankingDTO> findPontuacaoBySalaId(Integer id) {
+        Sala sala = salaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Sala não encontrada"));
+
+        Professor professor = professorService.getProfessorLogado();
+        if (!sala.getProfessores().contains(professor)) {
+            throw new RuntimeException("Acesso negado à sala.");
+        }
+
+        return pontuacaoRepository.findPontuacaoBySalaId(id);
     }
 
     @Autowired

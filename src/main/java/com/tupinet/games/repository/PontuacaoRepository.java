@@ -16,5 +16,5 @@ public interface PontuacaoRepository extends JpaRepository<Pontuacao, Integer> {
             "JOIN sj.jogo j " +
             "JOIN sj.sala s " +
             "WHERE s.id = :salaId")
-    List<RankingDTO> findPontuacaoBySalaId(@Param("salaId") Long salaId);
+    List<RankingDTO> findPontuacaoBySalaId(@Param("salaId") Integer salaId);
 }
