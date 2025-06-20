@@ -79,7 +79,7 @@ public class PalavrecaService {
         if (tamanhoPalavra < 7) {
             return 2;
         }
-        // Entre 30% e 40% do tamanho, arredondado, no mínimo 2
+
         double percentual = 0.3 + random.nextDouble() * 0.1;
         return Math.max(2, (int) Math.round(tamanhoPalavra * percentual));
     }
@@ -102,7 +102,7 @@ public class PalavrecaService {
 
         for (Map.Entry<Integer, Character> entrada : respostas.entrySet()) {
             if (entrada.getKey() < 0 || entrada.getKey() >= palavra.getCompleta().length()) {
-                continue; // Índice inválido, ignora
+                continue;
             }
 
             if (Character.toLowerCase(palavra.getCompleta().charAt(entrada.getKey())) !=
