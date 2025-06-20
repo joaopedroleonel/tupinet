@@ -28,5 +28,4 @@ public class PontuacaoController {
             return ResponseEntity.badRequest().build();
         }
     }
-
 }
