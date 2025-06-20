@@ -53,7 +53,6 @@ public class PalavrecaController {
             model.addAttribute("mensagem", session.getAttribute("mensagem"));
             session.removeAttribute("mensagem");
         }
-
         return "palavreca.html";
     }
 
