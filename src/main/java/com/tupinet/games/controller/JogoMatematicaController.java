@@ -12,5 +12,4 @@ public class JogoMatematicaController {
     public String jogoMatematica() {
         return "matematica.html";
     }
-
 }

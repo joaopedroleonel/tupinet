@@ -113,17 +113,6 @@ public class PalavrecaController {
     public String exibirFinal(Model model, HttpSession session) {
         model.addAttribute("acertos", session.getAttribute("acertos"));
         model.addAttribute("score", session.getAttribute("score"));
-        // Salva pontuação no banco (descomente quando necessário)
-        /*
-        PontuacaoDTO dto = new PontuacaoDTO(
-                JOGO_ID,
-                SALA_COD,
-                ALUNO,
-                (Integer) session.getAttribute("score"),
-                (Integer) session.getAttribute("acertos")
-        );
-        pontuacaoService.setPontuacao(dto);
-        */
 
         return "palavrecaFinal.html";
     }

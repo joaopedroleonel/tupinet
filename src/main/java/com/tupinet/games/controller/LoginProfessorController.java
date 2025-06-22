@@ -10,5 +10,4 @@ public class LoginProfessorController {
     public String loginP(){
         return "loginProfessor.html";
     }
-
 }
