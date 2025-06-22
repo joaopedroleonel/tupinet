@@ -43,7 +43,7 @@ class PalavrecaControllerUnitTest {
     }
 
     @Test
-    void DeveAtualizarScoreRodadaRedirecionar() {
+    void deveAtualizarScoreRodadaRedirecionar() {
         Palavreca palavraSessao = new Palavreca("java", "j_v_", new HashSet<>(Arrays.asList(0, 2)), "linguagem");
         when(session.getAttribute("palavraAtual")).thenReturn(palavraSessao);
         when(session.getAttribute("rodada")).thenReturn(1);
@@ -70,7 +70,7 @@ class PalavrecaControllerUnitTest {
     }
 
     @Test
-    void DeveAtualizarRodadaManterScoreRedirecionar() {
+    void deveAtualizarRodadaManterScoreRedirecionar() {
         Palavreca palavraSessao = new Palavreca("erro", "_rr_", new HashSet<>(Arrays.asList(0, 1)), "falha");
         when(session.getAttribute("palavraAtual")).thenReturn(palavraSessao);
         when(session.getAttribute("rodada")).thenReturn(1);
@@ -97,7 +97,7 @@ class PalavrecaControllerUnitTest {
     }
 
     @Test
-    void DeveRedirecionarParaFinal() {
+    void deveRedirecionarParaFinal() {
         Palavreca palavraSessao = new Palavreca("fim", "f_m", new HashSet<>(Arrays.asList(0)), "final");
         when(session.getAttribute("palavraAtual")).thenReturn(palavraSessao);
         when(session.getAttribute("rodada")).thenReturn(10);
@@ -120,7 +120,7 @@ class PalavrecaControllerUnitTest {
     }
 
     @Test
-    void DeveRedirecionarParaPalavreca() {
+    void deveRedirecionarParaPalavreca() {
         when(session.getAttribute("palavraAtual")).thenReturn(null);
 
         Map<String, String> params = new HashMap<>();
@@ -133,7 +133,7 @@ class PalavrecaControllerUnitTest {
     }
 
     @Test
-    void DeveAdicionarScoreAoModelo() {
+    void deveAdicionarScoreAoModelo() {
         when(session.getAttribute("acertos")).thenReturn(7);
         when(session.getAttribute("score")).thenReturn(70);
 
@@ -145,7 +145,7 @@ class PalavrecaControllerUnitTest {
     }
 
     @Test
-    void DeveResetarPalavrasInvalidarSessao() {
+    void deveResetarPalavrasInvalidarSessao() {
         String viewName = palavrecaController.reiniciarJogo(session);
 
         assertEquals("redirect:/palavreca", viewName);
