@@ -33,6 +33,13 @@
       <button class="botao-enviar">Jogar Novamente</button>
     </a>
   </div>
+
+  <div class="botao-container">
+    <a id="voltar-sala" class="botao-reiniciar" href="#">
+      <button class="botao-enviar">Voltar para a Sala</button>
+    </a>
+  </div>
+
 </div>
 
 <img src="/imagens/nuvens/Nuvem1.png" class="cloud" id="cloud1">
@@ -66,6 +73,16 @@
       })
     });
   });
+
+  document.getElementById('voltar-sala').onclick = function(e) {
+    e.preventDefault();
+    const codigo = sessionStorage.getItem("codigoSala");
+    if (codigo) {
+      window.location.href = "/selecaoJogos?codigo=" + encodeURIComponent(codigo);
+    } else {
+      window.location.href = "/";
+    }
+  };
 </script>
 
 </body>

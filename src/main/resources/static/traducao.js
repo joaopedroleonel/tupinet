@@ -98,7 +98,12 @@ function activeMicrophone() {
           const sair = document.createElement('a');
           sair.innerText = 'Sair do Jogo';
           sair.classList.add('botao-padrao');
-          sair.href = '/';
+          const codigo = sessionStorage.getItem('codigoSala');
+          if (codigo) {
+            sair.href = '/selecaoJogos?codigo=' + encodeURIComponent(codigo);
+          } else {
+            sair.href = '/';
+          }
           sair.style.backgroundColor = '#242424';
 
           const div = document.createElement('div');

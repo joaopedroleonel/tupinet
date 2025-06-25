@@ -254,6 +254,7 @@ function apresentarResumoFinal() {
     document.body.classList.add("final");
     document.querySelector('.calculo-central').textContent = "";
     document.querySelector('.questao-atual').textContent = "";
+
     let htmlResumo = `<strong>Parabéns!</strong><br>
     ${score} pontos<br>
     Tempo total: ${formatarTempo(msFinal - msInicio)}<br>
@@ -286,11 +287,28 @@ function apresentarResumoFinal() {
     });
 
     htmlResumo += `</div>`;
+
+    // <<<<<< CHAVE: Coloca o HTML antes do botão!
     document.querySelector(".score-exibicao").innerHTML = htmlResumo;
+
+    // Depois, crie o botão e adicione!
+    const btnVoltarSala = document.createElement('button');
+    btnVoltarSala.textContent = 'Voltar para a Sala';
+    btnVoltarSala.classList.add('nivel-btn');
+    btnVoltarSala.style.marginTop = "16px";
+    btnVoltarSala.onclick = function() {
+        const codigo = sessionStorage.getItem('codigoSala');
+        if (codigo) {
+            window.location.href = "/selecaoJogos?codigo=" + encodeURIComponent(codigo);
+        } else {
+            window.location.href = "/";
+        }
+    };
+    document.querySelector('.score-exibicao').appendChild(btnVoltarSala);
 
     // 1. RECUPERA DADOS
     const nomeAluno = sessionStorage.getItem('nomeAluno');
-    const codigoSala = sessionStorage.getItem('codigoSala'); // <- isso é o CÓDIGO, string
+    const codigoSala = sessionStorage.getItem('codigoSala');
     const jogoId = sessionStorage.getItem('jogoId');
     const pontos = score;
     const acertos = respostasUsuario.filter(r => r.acertou).length;
@@ -300,9 +318,7 @@ function apresentarResumoFinal() {
         return;
     }
 
-
-    ///
-
+    // Salva pontuação
     fetch('http://localhost:8080/api/salas/por-codigo/' + encodeURIComponent(codigoSala))
         .then(response => {
             if (!response.ok) throw new Error('Sala não encontrada para este código!');
@@ -316,7 +332,7 @@ function apresentarResumoFinal() {
                     jogoId: sessionStorage.getItem('jogoId'),
                     salaCod: sessionStorage.getItem('codigoSala'),
                     aluno: sessionStorage.getItem('nomeAluno'),
-                    pontos: pontuacao,
+                    pontos: score,
                     acertos: acertos
                 })
             });
