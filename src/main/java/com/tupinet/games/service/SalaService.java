@@ -91,6 +91,12 @@ public class SalaService {
             throw new RuntimeException("Você não tem permissão para excluir esta sala.");
         }
 
+        for (Professor p : sala.getProfessores()) {
+            p.getSalas().remove(sala);
+        }
+
+        sala.getProfessores().clear();
+
         salaRepository.delete(sala);
     }
 

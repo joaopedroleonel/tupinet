@@ -61,7 +61,12 @@ function finalizarJogo() {
 }
 
 function voltarParaInicio() {
-    window.location.href = "/";
+    const codigo = sessionStorage.getItem("codigoSala");
+    if (codigo) {
+        window.location.href = "/selecaoJogos?codigo=" + encodeURIComponent(codigo);
+    } else {
+        window.location.href = "/";
+    }
 }
 
 //cronometro
